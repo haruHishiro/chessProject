@@ -4,6 +4,11 @@
 class step {
 public:
 	step();
+	// for all figures
+	step(char figureName, bool isWhiteStep, char fromX, char fromY, char toX, char toY, bool isEat, char eatenName);
+	// only for pawn
+	step(char figureName, bool isWhiteStep, char fromX, char fromY, char toX, char toY, bool isEat, char eatenName, bool pwnOnLast, char newFigureName);
+
 	unsigned short getStepNumber();                      // step number
 	void setStepNumber(unsigned short stepNumber);      //
 	bool getIsWhiteStep();                             // white or black
@@ -35,11 +40,6 @@ public:
 	bool getPwnOnLast();                        // if pawn more not pawn
 	void setPwnOnLast(bool pwnOnLast);
 
-	// for all figures
-	step(char figureName, bool isWhiteStep, char fromX, char fromY, char toX, char toY, bool isEat, char eatenName);
-	// only for pawn
-	step(char figureName, bool isWhiteStep, char fromX, char fromY, char toX, char toY, bool isEat, char eatenName, bool pwnOnLast, char newFigureName);
-
 private:
 	unsigned short stepNumber;      // more than 255 steps?
 	bool isWhiteStep;              // step side
@@ -56,4 +56,3 @@ private:
 	step* nextStep;
 	step* prevStep;
 };
-

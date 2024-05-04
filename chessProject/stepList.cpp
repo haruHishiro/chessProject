@@ -25,6 +25,11 @@ void stepList::pushBack(bool isWhite, char figureName, char posXFrom, char posYF
 	}
 }
 
+void stepList::pushBack(step* s) {
+	stepList::pushBack(s->getIsWhiteStep(), s->getFigureName(), s->getPosXFrom(), s->getPosYFrom(),
+		s->getPosXTo(), s->getPosYTo(), s->getIsEat(), s->getEatenName(), s->getScore());
+}
+
 void stepList::removeFirst() {
 	if (stepList::isEmpty()) return;
 	step* s = stepList::firstStep;

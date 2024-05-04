@@ -10,6 +10,7 @@ figure::figure() {
 	figure::posY = -1;
 	figure::cost = 0;
 	figure::stepsCount = figure::stepsNumber;
+	figure::nextFigure = nullptr;
 }
 
 figure::figure(char figureName, bool isWhite, char posX, char posY) {
@@ -21,6 +22,8 @@ figure::figure(char figureName, bool isWhite, char posX, char posY) {
 	figure::stepsNumber = 0;
 	figure::allocatedSteps = nullptr;
 	figure::stepsCount = figure::stepsNumber;
+
+	figure::nextFigure = nullptr;
 
 	switch (figure::figureName) {
 	case 'P':
@@ -89,6 +92,7 @@ figure::figure(step** allocatedSteps, char stepsNumber, char figureName, bool is
 	for (char i = 0; i < stepsNumber; i++) {
 		figure::allocatedSteps[i] = allocatedSteps[i];
 	}
+	figure::nextFigure = nullptr;
 }
 
 figure::figure(step** allocatedSteps, char stepsNumber, char figureName, bool isWhite, char posX, char posY, int cost) {
@@ -103,6 +107,7 @@ figure::figure(step** allocatedSteps, char stepsNumber, char figureName, bool is
 	for (char i = 0; i < stepsNumber; i++) {
 		figure::allocatedSteps[i] = allocatedSteps[i];
 	}
+	figure::nextFigure = nullptr;
 }
 
 figure::~figure() {
@@ -146,13 +151,18 @@ void figure::addStep(step* s) {
 }
 
 void figure::setupSteps(char** deck, step* lastStep){
-	        // must be overrited in child classses
-		   // const deck size [8][8]
-	      // 0 - free field
-	     // 1 - pawn
-	    // 2 - knight
-	   // 3 - bishop
-	  // 4 - rook
-	 // 5 - queen
-	// 6 - king
+	          // must be overrited in child classses
+		     // const deck size [8][8]
+	        // 0 - free field
+	       // 1 - pawn
+	      // 2 - knight
+	     // 3 - bishop
+	    // 4 - rook
+	   // 5 - queen
+	  // 6 - king
+	 // if value < 0 that means black figure
+	// if value > 0 that means white figure
 }
+
+figure* figure::getNextFigure() { return figure::nextFigure; }
+void figure::setNextFigure(figure* nextFigure) { figure::nextFigure = nextFigure; }

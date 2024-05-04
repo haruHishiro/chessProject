@@ -37,6 +37,9 @@ public:
 
 	virtual void setupSteps(char** deck, step* lastStep);
 
+	figure* getNextFigure();
+	void setNextFigure(figure* nextFigure);
+
 protected: // or protected or friend classes usage
 	char figureName;
 	bool isWhite;
@@ -48,4 +51,6 @@ protected: // or protected or friend classes usage
 	step** allocatedSteps;
 	char stepsNumber;    // allocated steps length
 	char stepsCount;    // curent number of steps
+
+	figure* nextFigure;
 };

@@ -14,38 +14,9 @@ step::step() {
 	step::score = 0;
 	step::nextStep = nullptr;
 	step::prevStep = nullptr;
+	step::pwnOnLast = false;
+	step::newFigureName = -1;
 }
-
-unsigned short step::getStepNumber() { return step::stepNumber; }
-void step::setStepNumber(unsigned short stepNumber) { step::stepNumber = stepNumber; }
-bool step::getIsWhiteStep() { return step::isWhiteStep; }
-void step::setIsWhiteStep(bool isWhiteStep) { step::isWhiteStep = isWhiteStep; }
-char step::getFigureName() { return step::figureName; }
-void step::setFigureName(char figureName) { step::figureName = figureName; }
-char step::getPosXFrom() { return step::posXFrom; }
-void step::setPosXFrom(char posXFrom) { step::posXFrom = posXFrom; }
-char step::getPosYFrom() { return step::posYFrom; }
-void step::setPosYFrom(char posYFrom) { step::posYFrom = posYFrom; }
-char step::getPosXTo() { return step::posXTo; }
-void step::setPosXTo(char posXTo) { step::posXTo = posXTo; }
-char step::getPosYTo() { return step::posYTo; }
-void step::setPosYTo(char posYTo) { step::posYTo = posYTo; }
-void step::setPosFrom(char X, char Y) { step::posXFrom = X; step::posYFrom = Y; }
-void step::setPosTo(char X, char Y) { step::posXTo = X; step::posYTo = Y; }
-bool step::getIsEat() { return step::isEat; }
-void step::setIsEat(bool isEat) { step::isEat = isEat; }
-char step::getEatenName() { return step::eatenName; }
-void step::setEatenName(char eatenName) { step::eatenName = eatenName; }
-unsigned step::getScore() { return step::score; }
-void step::setScore(unsigned score) { step::score = score; }
-step* step::getNextStep() { return step::nextStep; }
-void step::setNextStep(step* nextStep) { step::nextStep = nextStep; }
-step* step::getPrevStep() { return step::prevStep; }
-void step::setPrevStep(step* prevStep) { step::prevStep = prevStep; }
-char step::getNewFigureName() { return step::figureName; }
-void step::setNewFigureName(char newFigureName) { step::newFigureName = newFigureName; }
-bool step::getPwnOnLast() { return step::pwnOnLast; }
-void step::setPwnOnLast(bool pwnOnLast) { step::pwnOnLast = pwnOnLast; }
 
 step::step(char figureName, bool isWhiteStep, char fromX, char fromY, char toX, char toY, bool isEat, char eatenName) {
 	step::figureName = figureName;
@@ -80,3 +51,34 @@ step::step(char figureName, bool isWhiteStep, char fromX, char fromY, char toX, 
 	step::pwnOnLast = pwnOnLast;
 	step::newFigureName = newFigureName;
 }
+
+unsigned short step::getStepNumber() { return step::stepNumber; }
+void step::setStepNumber(unsigned short stepNumber) { step::stepNumber = stepNumber; }
+bool step::getIsWhiteStep() { return step::isWhiteStep; }
+void step::setIsWhiteStep(bool isWhiteStep) { step::isWhiteStep = isWhiteStep; }
+char step::getFigureName() { return step::figureName; }
+void step::setFigureName(char figureName) { step::figureName = figureName; }
+char step::getPosXFrom() { return step::posXFrom; }
+void step::setPosXFrom(char posXFrom) { step::posXFrom = posXFrom; }
+char step::getPosYFrom() { return step::posYFrom; }
+void step::setPosYFrom(char posYFrom) { step::posYFrom = posYFrom; }
+char step::getPosXTo() { return step::posXTo; }
+void step::setPosXTo(char posXTo) { step::posXTo = posXTo; }
+char step::getPosYTo() { return step::posYTo; }
+void step::setPosYTo(char posYTo) { step::posYTo = posYTo; }
+void step::setPosFrom(char X, char Y) { step::posXFrom = X; step::posYFrom = Y; }
+void step::setPosTo(char X, char Y) { step::posXTo = X; step::posYTo = Y; }
+bool step::getIsEat() { return step::isEat; }
+void step::setIsEat(bool isEat) { step::isEat = isEat; }
+char step::getEatenName() { return step::eatenName; }
+void step::setEatenName(char eatenName) { step::eatenName = eatenName; }
+unsigned step::getScore() { return step::score; }
+void step::setScore(unsigned score) { step::score = score; }
+step* step::getNextStep() { return step::nextStep; }
+void step::setNextStep(step* nextStep) { step::nextStep = nextStep; }
+step* step::getPrevStep() { return step::prevStep; }
+void step::setPrevStep(step* prevStep) { step::prevStep = prevStep; }
+char step::getNewFigureName() { return step::figureName; }
+void step::setNewFigureName(char newFigureName) { step::newFigureName = newFigureName; }
+bool step::getPwnOnLast() { return step::pwnOnLast; }
+void step::setPwnOnLast(bool pwnOnLast) { step::pwnOnLast = pwnOnLast; }
