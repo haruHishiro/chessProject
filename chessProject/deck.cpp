@@ -1,56 +1,19 @@
 #include "deck.h"
 
-
 deck::deck(unsigned char difficulty) {
-	deck::difficulty = difficulty;
 	deck::setDificulty(difficulty);
 	deck::curentDeep = 0;
-
-	deck::deckTree = new deck * [deck::alfaBeta_k];
-	if (deck::curentDeep == deck::deep) {
-		if (deck::enableAlfaBeta) {
-			for (unsigned char i = 0; i < deck::alfaBeta_k; i++) {
-				deck::deckTree[i] = nullptr;
-			}
-		}
-	}
-	else {
-		if (deck::enableAlfaBeta) {
-			for (unsigned char i = 0; i < deck::alfaBeta_k; i++) {
-				deck::deckTree[i] = new deck(difficulty, deck::curentDeep + 1);
-			}
-		}
-	}
-
 	deck::setupFlags();
-
+	
 	deck::curentChessDeck = new char* [8];
 	for (char i = 0; i < 8; i++) {
 		deck::curentChessDeck[i] = new char[8];
 	}
 }
 
-deck::deck(unsigned char difficulty, unsigned char curentDeep) {
-	deck::difficulty = difficulty;
+deck::deck(unsigned char curentDeep, unsigned char maxDeep) {
+	deck::maxDeep = maxDeep;
 	deck::curentDeep = curentDeep;
-	deck::setDificulty(difficulty);
-
-	deck::deckTree = new deck* [deck::alfaBeta_k];
-	if (curentDeep == deck::deep) {
-		if (deck::enableAlfaBeta) {
-			for (unsigned char i = 0; i < deck::alfaBeta_k; i++) {
-				deck::deckTree[i] = nullptr;
-			}
-		}
-	}
-	else {
-		if (deck::enableAlfaBeta) {
-			for (unsigned char i = 0; i < deck::alfaBeta_k; i++) {
-				deck::deckTree[i] = new deck(difficulty, curentDeep + 1);
-			}
-		}
-	}
-
 	deck::setupFlags();
 
 	deck::curentChessDeck = new char* [8];
@@ -63,7 +26,7 @@ deck::~deck() {
 	deck::whiteFigures.clear();
 	deck::blackFigures.clear();
 
-	for (unsigned char i = 0; i < deck::alfaBeta_k; i++) {
+	for (unsigned char i = 0; i < deck::allocatedStepsNumber; i++) {
 		delete deck::deckTree[i];
 	}
 	
@@ -76,32 +39,19 @@ deck::~deck() {
 }
 
 void deck::setDificulty(unsigned char difficulty) {
-	// if you want to add custom difficulty without alfa-beta you should to
-	// get move for analyze
-	// count all steps what we can with this move.
-	// else use alfa-beta
-
 	switch (difficulty) {
 	case 1:
-		deck::enableAlfaBeta = true;
-		deck::alfaBeta_k = 3;
-		deck::deep = 3;
+		deck::maxDeep = 1;
 		break;
 	case 2:
-		deck::enableAlfaBeta = true;
-		deck::alfaBeta_k = 5;
-		deck::deep = 7;
+		deck::maxDeep = 5;
 		break;
 	case 3:
 		// request on master fide
-		deck::enableAlfaBeta = true;
-		deck::alfaBeta_k = 10;
-		deck::deep = 15;
+		deck::maxDeep = 15;
 		break;
 	default:
-		deck::enableAlfaBeta = true;
-		deck::alfaBeta_k = 5;
-		deck::deep = 5;
+		deck::maxDeep = 1;
 	}
 }
 
@@ -219,7 +169,7 @@ int deck::getPositionScore() {
 	return score;
 }
 
-void deck::setupSteps() {
+void deck::setupFiguresSteps() {
 	// all steps initiation
 	if (deck::isWhiteMove) {
 		for (unsigned char i = 0; i < deck::whiteFiguresNumber; i++) {
@@ -236,26 +186,24 @@ void deck::setupSteps() {
 
 }
 
-step* deck::getBestStep() {
-	// alfa-beta - number of steps what we check
-	/*
-	step** stepsArray = new step*[deck::alfaBeta_k];
-
-	if (deck::curentDeep < deck::deep) {
-		for (unsigned char i = 0; i < alfaBeta_k; i++) {
-			stepsArray[i] = deck::deckTree[i]->getBestStep();
-		}
+void deck::analyze() {
+	deck::deckTree = new deck* [deck::allocatedStepsNumber];
+	
+	for (unsigned short i = 0; i < allocatedStepsNumber; i++) {
+		deck::deckTree[i] = new deck(deck::difficulty, deck::curentDeep + 1);
+		deck::deckTree[i]->setIsWhiteMove(deck::isWhiteMove);
+		deck::deckTree[i]->doMove(deck::allocatedSteps[i]);
+		deck::deckTree[i]->setupPositionScore();
 	}
 
-	unsigned char bestStepIndex = 0; 
-	for (unsigned char i = 1; i < alfaBeta_k; i++) {
-		if (deck::allocatedSteps[i]->getScore() > deck::allocatedSteps[bestStepIndex]->getScore()) {
-			bestStepIndex = i;
-		}
-	}
+}
 
-	return deck::allocatedSteps[bestStepIndex];
-	*/
+void deck::setIsWhiteMove(bool isWhiteMove) {
+	deck::isWhiteMove = isWhiteMove;
+}
+
+void deck::setupPositionScore() {
+	deck::positionScore = deck::getPositionScore();
 }
 
 void deck::setNotation(stepList notation) {
@@ -267,6 +215,19 @@ void deck::setNotation(stepList notation) {
 	}
 }
 
+void deck::setPosition(char** chessDeck) {
+	for (char i = 0; i < 8; i++) {
+		for (char j = 0; j < 8; j++) {
+			deck::curentChessDeck[i][j] = chessDeck[i][j];
+		}
+	}
+}
+
+void deck::setFigures(figuresList whiteFigures, figuresList blackFigures) {
+	deck::whiteFigures = whiteFigures;
+	deck::blackFigures = blackFigures;
+}
+
 void deck::setupFlags() {
 	deck::isWhiteMove = true;
 	deck::isCheck = false;
@@ -275,23 +236,7 @@ void deck::setupFlags() {
 }
 
 void deck::clearTreeStatement() {
-	for (unsigned char i = 0; i < deck::alfaBeta_k; i++) {
+	for (unsigned char i = 0; i < deck::allocatedStepsNumber; i++) {
 		delete deck::deckTree[i];
-	}
-
-	// from constructor
-	if (deck::curentDeep == deck::deep) {
-		if (deck::enableAlfaBeta) {
-			for (unsigned char i = 0; i < deck::alfaBeta_k; i++) {
-				deck::deckTree[i] = nullptr;
-			}
-		}
-	}
-	else {
-		if (deck::enableAlfaBeta) {
-			for (unsigned char i = 0; i < deck::alfaBeta_k; i++) {
-				deck::deckTree[i] = new deck(deck::difficulty, deck::curentDeep + 1);
-			}
-		}
 	}
 }

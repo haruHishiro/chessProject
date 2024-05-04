@@ -8,7 +8,7 @@
 class deck {
 public:
 	deck(unsigned char difficulty);
-	deck(unsigned char difficulty, unsigned char curentDeep);
+	deck(unsigned char curentDeep, unsigned char maxDeep);
 	~deck();
 	void setDificulty(unsigned char difficulty);
 
@@ -18,21 +18,25 @@ public:
 
 	int getPositionScore();
 
-	void setupSteps();
-	step* getBestStep();
+	void setupFiguresSteps();
+	void analyze();
 
+	void setIsWhiteMove(bool isWhiteMove);
+	void setupPositionScore();
 	void setNotation(stepList notation);
+
+	void setPosition(char** chessDeck);
+	void setFigures(figuresList whiteFigures, figuresList blackFigures);
 
 private:
 	void setupFlags();
 	// variables for difficulty
 	char difficulty;
-	bool enableAlfaBeta;
-	unsigned char alfaBeta_k; // how many steps into move we want to check with
-	unsigned char deep;      // how many moves we want to analyze
+	unsigned char maxDeep;      // how many moves we want to analyze
 	unsigned char curentDeep;
 
 	char** curentChessDeck;    // main deck
+	int positionScore;
 
 	stepList notation;
 

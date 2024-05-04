@@ -5,8 +5,7 @@ int main() {
 	// branch init
 	deck* chessDeck = new deck(1);
 
-	chessDeck->setupSteps();
-	chessDeck->doMove(chessDeck->getBestStep());
+	chessDeck->setupFiguresSteps();
 
 	return 0;
 }
