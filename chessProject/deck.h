@@ -19,7 +19,7 @@ public:
 	int getPositionScore();
 
 	void setupFiguresSteps();
-	void analyze();
+	int analyze();
 
 	void setIsWhiteMove(bool isWhiteMove);
 	void setupPositionScore();
@@ -27,6 +27,8 @@ public:
 
 	void setPosition(char** chessDeck);
 	void setFigures(figuresList whiteFigures, figuresList blackFigures);
+
+	
 
 private:
 	void setupFlags();
@@ -57,4 +59,5 @@ private:
 	deck** deckTree;
 
 	void clearTreeStatement();
+	bool botSideIsWhite;
 };

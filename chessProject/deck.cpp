@@ -3,6 +3,7 @@
 deck::deck(unsigned char difficulty) {
 	deck::setDificulty(difficulty);
 	deck::curentDeep = 0;
+	deck::botSideIsWhite = false;
 	deck::setupFlags();
 	
 	deck::curentChessDeck = new char* [8];
@@ -14,6 +15,7 @@ deck::deck(unsigned char difficulty) {
 deck::deck(unsigned char curentDeep, unsigned char maxDeep) {
 	deck::maxDeep = maxDeep;
 	deck::curentDeep = curentDeep;
+	deck::botSideIsWhite = false;
 	deck::setupFlags();
 
 	deck::curentChessDeck = new char* [8];
@@ -186,7 +188,11 @@ void deck::setupFiguresSteps() {
 
 }
 
-void deck::analyze() {
+int deck::analyze() {
+	if (deck::curentDeep == deck::maxDeep) return;
+	if (deck::allocatedStepsNumber < 1) {
+		// check endGame flags and return
+	}
 	deck::deckTree = new deck* [deck::allocatedStepsNumber];
 	
 	for (unsigned short i = 0; i < allocatedStepsNumber; i++) {
@@ -196,6 +202,22 @@ void deck::analyze() {
 		deck::deckTree[i]->setupPositionScore();
 	}
 
+	if (deck::curentDeep + 1 < deck::maxDeep) {
+		// deeper and deeper
+		for (unsigned short i = 0; i < allocatedStepsNumber; i++) {
+			deck::deckTree[i]->setupFiguresSteps();
+			deck::deckTree[i]->analyze();
+		}
+	}
+	else {
+		// return score
+		deck::positionScore = deck::deckTree[0]->getPositionScore();
+		for (unsigned short i = 0; i < allocatedStepsNumber; i++) {
+			// find max value
+		}
+		 // set gettet max value to pos score
+		// return max value
+	}
 }
 
 void deck::setIsWhiteMove(bool isWhiteMove) {
