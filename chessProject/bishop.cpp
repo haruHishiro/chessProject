@@ -73,6 +73,7 @@ void bishop::whiteBishopSetup(char** deck, step* lastStep) {
 void bishop::blackBishopSetup(char** deck, step* lastStep) {
 	const char fArr[] = "\0PNBRQK";
 	char fN;
+
 	for (char i = 1; bishop::posX + i < 8 && bishop::posY + i < 8; i++) {
 		if (deck[posX + i][posY + i] != 0) {
 			// can not continue moving to this side

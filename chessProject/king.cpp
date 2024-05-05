@@ -8,3 +8,9 @@ void king::setupSteps(char** deck, step* lastStep) {
 		king::blackKingSetup(deck, lastStep);
 	}
 }
+
+void king::whiteKingSetup(char** deck, step* lastStep) {
+}
+
+void king::blackKingSetup(char** deck, step* lastStep) {
+}

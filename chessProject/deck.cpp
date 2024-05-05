@@ -191,7 +191,7 @@ void deck::setupFiguresSteps() {
 int deck::analyze() {
 	if (deck::curentDeep == deck::maxDeep) {
 		deck::setupPositionScore();
-		return;
+		return deck::positionScore;
 	}
 
 	if (deck::allocatedStepsNumber < 1) {
@@ -208,7 +208,7 @@ int deck::analyze() {
 			deck::positionScore = 100000;
 		}
 		deck::isEndGame = true;
-		return;
+		return deck::positionScore;
 	}
 
 	deck::deckTree = new deck* [deck::allocatedStepsNumber];
@@ -236,7 +236,7 @@ int deck::analyze() {
 			else {
 				deck::positionScore = 100000;
 			}
-			return;
+			return deck::positionScore;
 		}
 
 		for (unsigned short i = 0; i < allocatedStepsNumber; i++) {
