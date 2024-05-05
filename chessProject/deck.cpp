@@ -266,7 +266,6 @@ int deck::analyze() {
 					deck::bestStep = deck::deckTree[i]->getLastMove();
 				}
 			}
-			
 		}
 	}
 }
