@@ -24,11 +24,12 @@ public:
 	void setIsWhiteMove(bool isWhiteMove);
 	void setupPositionScore();
 	void setNotation(stepList notation);
+	step* getLastMove();
 
 	void setPosition(char** chessDeck);
 	void setFigures(figuresList whiteFigures, figuresList blackFigures);
 
-	
+	void setupEndGameFlags();
 
 private:
 	void setupFlags();
@@ -39,8 +40,10 @@ private:
 
 	char** curentChessDeck;    // main deck
 	int positionScore;
+	int treePositionScore;
 
 	stepList notation;
+	step* bestStep;
 
 	figuresList whiteFigures;
 	char whiteFiguresNumber;

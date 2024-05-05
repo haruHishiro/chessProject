@@ -145,6 +145,8 @@ void deck::doMove(step* move) {
 
 	// switch move
 	deck::isWhiteMove = !deck::isWhiteMove;
+
+	deck::setupEndGameFlags();
 }
 
 int deck::getPositionScore() {
@@ -183,16 +185,32 @@ void deck::setupFiguresSteps() {
 			deck::blackFigures[i]->setupSteps(deck::curentChessDeck, notation.getLast());
 		}
 	}
-
-	 // allocated steps initiation
-
+	 // allocated figures steps initiation
 }
 
 int deck::analyze() {
-	if (deck::curentDeep == deck::maxDeep) return;
+	if (deck::curentDeep == deck::maxDeep) {
+		deck::setupPositionScore();
+		return;
+	}
+
 	if (deck::allocatedStepsNumber < 1) {
 		// check endGame flags and return
+		if (deck::isDraw) {
+			// no moves = draw
+			deck::positionScore = 0;
+		}
+		if (deck::isCheck && isWhiteMove) {
+			// white must move, but can not -> black wins
+			deck::positionScore = -100000;
+		}
+		else {
+			deck::positionScore = 100000;
+		}
+		deck::isEndGame = true;
+		return;
 	}
+
 	deck::deckTree = new deck* [deck::allocatedStepsNumber];
 	
 	for (unsigned short i = 0; i < allocatedStepsNumber; i++) {
@@ -204,19 +222,52 @@ int deck::analyze() {
 
 	if (deck::curentDeep + 1 < deck::maxDeep) {
 		// deeper and deeper
+		// check endgame flags before
+		deck::setupEndGameFlags();
+		if (deck::isEndGame) {
+			if (deck::isDraw) {
+				// no moves = draw
+				deck::positionScore = 0;
+			}
+			if (deck::isCheck && isWhiteMove) {
+				// white must move, but can not -> black wins
+				deck::positionScore = -100000;
+			}
+			else {
+				deck::positionScore = 100000;
+			}
+			return;
+		}
+
 		for (unsigned short i = 0; i < allocatedStepsNumber; i++) {
+			// setup allocated steps array
 			deck::deckTree[i]->setupFiguresSteps();
+			// continue analize
 			deck::deckTree[i]->analyze();
 		}
 	}
 	else {
 		// return score
 		deck::positionScore = deck::deckTree[0]->getPositionScore();
-		for (unsigned short i = 0; i < allocatedStepsNumber; i++) {
-			// find max value
+		deck::bestStep = deck::deckTree[0]->getLastMove();
+		// setup best step
+		for (unsigned short i = 1; i < allocatedStepsNumber; i++) {
+			if (deck::isWhiteMove) {
+				// whites move - find max positive
+				if (deck::deckTree[i]->getPositionScore() > deck::positionScore) {
+					deck::positionScore = deck::deckTree[i]->getPositionScore();
+					deck::bestStep = deck::deckTree[i]->getLastMove();
+				}
+			}
+			else {
+				// blacks move - find max negative
+				if (deck::deckTree[i]->getPositionScore() < deck::positionScore) {
+					deck::positionScore = deck::deckTree[i]->getPositionScore();
+					deck::bestStep = deck::deckTree[i]->getLastMove();
+				}
+			}
+			
 		}
-		 // set gettet max value to pos score
-		// return max value
 	}
 }
 
@@ -237,6 +288,10 @@ void deck::setNotation(stepList notation) {
 	}
 }
 
+step* deck::getLastMove() {
+	return deck::notation.getLast();
+}
+
 void deck::setPosition(char** chessDeck) {
 	for (char i = 0; i < 8; i++) {
 		for (char j = 0; j < 8; j++) {
@@ -248,6 +303,9 @@ void deck::setPosition(char** chessDeck) {
 void deck::setFigures(figuresList whiteFigures, figuresList blackFigures) {
 	deck::whiteFigures = whiteFigures;
 	deck::blackFigures = blackFigures;
+}
+
+void deck::setupEndGameFlags() {
 }
 
 void deck::setupFlags() {
