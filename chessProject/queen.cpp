@@ -19,12 +19,12 @@ void queen::whiteQueenSetup(char** deck, step* lastStep) {
 			// can not continue moving to this side
 			if (deck[queen::posX + i][queen::posY + i] < 0) {
 				fN = fArr[(deck[queen::posX + i][queen::posY + i]) * (-1)];
-				queen::addStep(new step('B', true, queen::posX, queen::posY, queen::posX + i, queen::posY + i, true, fN));
+				queen::addStep(new step('Q', true, queen::posX, queen::posY, queen::posX + i, queen::posY + i, true, fN));
 			}
 			break;
 		}
 		else {
-			queen::addStep(new step('B', true, queen::posX, queen::posY, queen::posX + i, queen::posY + i, false, '\0'));
+			queen::addStep(new step('Q', true, queen::posX, queen::posY, queen::posX + i, queen::posY + i, false, '\0'));
 		}
 	}
 
@@ -33,12 +33,12 @@ void queen::whiteQueenSetup(char** deck, step* lastStep) {
 			// can not continue moving to this side
 			if (deck[queen::posX - i][queen::posY - i] < 0) {
 				fN = fArr[(deck[queen::posX - i][queen::posY - i]) * (-1)];
-				queen::addStep(new step('B', true, queen::posX, queen::posY, queen::posX - i, queen::posY - i, true, fN));
+				queen::addStep(new step('Q', true, queen::posX, queen::posY, queen::posX - i, queen::posY - i, true, fN));
 			}
 			break;
 		}
 		else {
-			queen::addStep(new step('B', true, queen::posX, queen::posY, queen::posX - i, queen::posY - i, false, '\0'));
+			queen::addStep(new step('Q', true, queen::posX, queen::posY, queen::posX - i, queen::posY - i, false, '\0'));
 		}
 	}
 
@@ -47,12 +47,12 @@ void queen::whiteQueenSetup(char** deck, step* lastStep) {
 			// can not continue moving to this side
 			if (deck[queen::posX + i][queen::posY - i] < 0) {
 				fN = fArr[(deck[queen::posX + i][queen::posY - i]) * (-1)];
-				queen::addStep(new step('B', true, queen::posX, queen::posY, queen::posX + i, queen::posY - i, true, fN));
+				queen::addStep(new step('Q', true, queen::posX, queen::posY, queen::posX + i, queen::posY - i, true, fN));
 			}
 			break;
 		}
 		else {
-			queen::addStep(new step('B', true, queen::posX, queen::posY, queen::posX + i, queen::posY - i, false, '\0'));
+			queen::addStep(new step('Q', true, queen::posX, queen::posY, queen::posX + i, queen::posY - i, false, '\0'));
 		}
 	}
 
@@ -61,12 +61,12 @@ void queen::whiteQueenSetup(char** deck, step* lastStep) {
 			// can not continue moving to this side
 			if (deck[queen::posX - i][queen::posY + i] < 0) {
 				fN = fArr[(deck[queen::posX - i][queen::posY + i]) * (-1)];
-				queen::addStep(new step('B', true, queen::posX, queen::posY, queen::posX - i, queen::posY + i, true, fN));
+				queen::addStep(new step('Q', true, queen::posX, queen::posY, queen::posX - i, queen::posY + i, true, fN));
 			}
 			break;
 		}
 		else {
-			queen::addStep(new step('B', true, queen::posX, queen::posY, queen::posX - i, queen::posY + i, false, '\0'));
+			queen::addStep(new step('Q', true, queen::posX, queen::posY, queen::posX - i, queen::posY + i, false, '\0'));
 		}
 	}
 
@@ -76,12 +76,12 @@ void queen::whiteQueenSetup(char** deck, step* lastStep) {
 			// can not continue moving to this side
 			if (deck[queen::posX + i][queen::posY] < 0) {
 				fN = fArr[(deck[queen::posX + i][queen::posY]) * (-1)];
-				queen::addStep(new step('R', true, queen::posX, queen::posY, queen::posX + i, queen::posY, true, fN));
+				queen::addStep(new step('Q', true, queen::posX, queen::posY, queen::posX + i, queen::posY, true, fN));
 			}
 			break;
 		}
 		else {
-			queen::addStep(new step('R', true, queen::posX, queen::posY, queen::posX + i, queen::posY, false, '\0'));
+			queen::addStep(new step('Q', true, queen::posX, queen::posY, queen::posX + i, queen::posY, false, '\0'));
 		}
 	}
 
@@ -90,12 +90,12 @@ void queen::whiteQueenSetup(char** deck, step* lastStep) {
 			// can not continue moving to this side
 			if (deck[queen::posX - i][queen::posY] < 0) {
 				fN = fArr[(deck[queen::posX - i][queen::posY]) * (-1)];
-				queen::addStep(new step('R', true, queen::posX, queen::posY, queen::posX - i, queen::posY, true, fN));
+				queen::addStep(new step('Q', true, queen::posX, queen::posY, queen::posX - i, queen::posY, true, fN));
 			}
 			break;
 		}
 		else {
-			queen::addStep(new step('R', true, queen::posX, queen::posY, queen::posX - i, queen::posY, false, '\0'));
+			queen::addStep(new step('Q', true, queen::posX, queen::posY, queen::posX - i, queen::posY, false, '\0'));
 		}
 	}
 
@@ -104,12 +104,12 @@ void queen::whiteQueenSetup(char** deck, step* lastStep) {
 			// can not continue moving to this side
 			if (deck[queen::posX][queen::posY + i] < 0) {
 				fN = fArr[(deck[queen::posX][queen::posY + i]) * (-1)];
-				queen::addStep(new step('R', true, queen::posX, queen::posY, queen::posX, queen::posY + i, true, fN));
+				queen::addStep(new step('Q', true, queen::posX, queen::posY, queen::posX, queen::posY + i, true, fN));
 			}
 			break;
 		}
 		else {
-			queen::addStep(new step('R', true, queen::posX, queen::posY, queen::posX, queen::posY + i, false, '\0'));
+			queen::addStep(new step('Q', true, queen::posX, queen::posY, queen::posX, queen::posY + i, false, '\0'));
 		}
 	}
 
@@ -118,12 +118,12 @@ void queen::whiteQueenSetup(char** deck, step* lastStep) {
 			// can not continue moving to this side
 			if (deck[queen::posX][queen::posY - i] < 0) {
 				fN = fArr[(deck[queen::posX][queen::posY - i]) * (-1)];
-				queen::addStep(new step('R', true, queen::posX, queen::posY, queen::posX, queen::posY - i, true, fN));
+				queen::addStep(new step('Q', true, queen::posX, queen::posY, queen::posX, queen::posY - i, true, fN));
 			}
 			break;
 		}
 		else {
-			queen::addStep(new step('R', true, queen::posX, queen::posY, queen::posX, queen::posY - i, false, '\0'));
+			queen::addStep(new step('Q', true, queen::posX, queen::posY, queen::posX, queen::posY - i, false, '\0'));
 		}
 	}
 }
@@ -138,12 +138,12 @@ void queen::blackQueenSetup(char** deck, step* lastStep) {
 			// can not continue moving to this side
 			if (deck[queen::posX + i][queen::posY + i] > 0) {
 				fN = fArr[(deck[queen::posX + i][queen::posY + i])];
-				queen::addStep(new step('B', false, queen::posX, queen::posY, queen::posX + i, queen::posY + i, true, fN));
+				queen::addStep(new step('Q', false, queen::posX, queen::posY, queen::posX + i, queen::posY + i, true, fN));
 			}
 			break;
 		}
 		else {
-			queen::addStep(new step('B', false, queen::posX, queen::posY, queen::posX + i, queen::posY + i, false, '\0'));
+			queen::addStep(new step('Q', false, queen::posX, queen::posY, queen::posX + i, queen::posY + i, false, '\0'));
 		}
 	}
 
@@ -152,12 +152,12 @@ void queen::blackQueenSetup(char** deck, step* lastStep) {
 			// can not continue moving to this side
 			if (deck[queen::posX - i][queen::posY - i] > 0) {
 				fN = fArr[(deck[queen::posX - i][queen::posY - i])];
-				queen::addStep(new step('B', false, queen::posX, queen::posY, queen::posX - i, queen::posY - i, true, fN));
+				queen::addStep(new step('Q', false, queen::posX, queen::posY, queen::posX - i, queen::posY - i, true, fN));
 			}
 			break;
 		}
 		else {
-			queen::addStep(new step('B', false, queen::posX, queen::posY, queen::posX - i, queen::posY - i, false, '\0'));
+			queen::addStep(new step('Q', false, queen::posX, queen::posY, queen::posX - i, queen::posY - i, false, '\0'));
 		}
 	}
 
@@ -166,12 +166,12 @@ void queen::blackQueenSetup(char** deck, step* lastStep) {
 			// can not continue moving to this side
 			if (deck[queen::posX + i][queen::posY - i] > 0) {
 				fN = fArr[(deck[queen::posX + i][queen::posY - i])];
-				queen::addStep(new step('B', false, queen::posX, queen::posY, queen::posX + i, queen::posY - i, true, fN));
+				queen::addStep(new step('Q', false, queen::posX, queen::posY, queen::posX + i, queen::posY - i, true, fN));
 			}
 			break;
 		}
 		else {
-			queen::addStep(new step('B', false, queen::posX, queen::posY, queen::posX + i, queen::posY - i, false, '\0'));
+			queen::addStep(new step('Q', false, queen::posX, queen::posY, queen::posX + i, queen::posY - i, false, '\0'));
 		}
 	}
 
@@ -180,12 +180,12 @@ void queen::blackQueenSetup(char** deck, step* lastStep) {
 			// can not continue moving to this side
 			if (deck[queen::posX - i][queen::posY + i] > 0) {
 				fN = fArr[(deck[queen::posX - i][queen::posY + i])];
-				queen::addStep(new step('B', false, queen::posX, queen::posY, queen::posX - i, queen::posY + i, true, fN));
+				queen::addStep(new step('Q', false, queen::posX, queen::posY, queen::posX - i, queen::posY + i, true, fN));
 			}
 			break;
 		}
 		else {
-			queen::addStep(new step('B', false, queen::posX, queen::posY, queen::posX - i, queen::posY + i, false, '\0'));
+			queen::addStep(new step('Q', false, queen::posX, queen::posY, queen::posX - i, queen::posY + i, false, '\0'));
 		}
 	}
 
@@ -195,12 +195,12 @@ void queen::blackQueenSetup(char** deck, step* lastStep) {
 			// can not continue moving to this side
 			if (deck[queen::posX + i][queen::posY] > 0) {
 				fN = fArr[(deck[queen::posX + i][queen::posY])];
-				queen::addStep(new step('R', false, queen::posX, queen::posY, queen::posX + i, queen::posY, true, fN));
+				queen::addStep(new step('Q', false, queen::posX, queen::posY, queen::posX + i, queen::posY, true, fN));
 			}
 			break;
 		}
 		else {
-			queen::addStep(new step('R', false, queen::posX, queen::posY, queen::posX + i, queen::posY, false, '\0'));
+			queen::addStep(new step('Q', false, queen::posX, queen::posY, queen::posX + i, queen::posY, false, '\0'));
 		}
 	}
 
@@ -209,12 +209,12 @@ void queen::blackQueenSetup(char** deck, step* lastStep) {
 			// can not continue moving to this side
 			if (deck[queen::posX - i][queen::posY] > 0) {
 				fN = fArr[(deck[queen::posX - i][queen::posY])];
-				queen::addStep(new step('R', false, queen::posX, queen::posY, queen::posX - i, queen::posY, true, fN));
+				queen::addStep(new step('Q', false, queen::posX, queen::posY, queen::posX - i, queen::posY, true, fN));
 			}
 			break;
 		}
 		else {
-			queen::addStep(new step('R', false, queen::posX, queen::posY, queen::posX - i, queen::posY, false, '\0'));
+			queen::addStep(new step('Q', false, queen::posX, queen::posY, queen::posX - i, queen::posY, false, '\0'));
 		}
 	}
 
@@ -223,12 +223,12 @@ void queen::blackQueenSetup(char** deck, step* lastStep) {
 			// can not continue moving to this side
 			if (deck[queen::posX][queen::posY + i] > 0) {
 				fN = fArr[(deck[queen::posX][queen::posY + i])];
-				queen::addStep(new step('R', false, queen::posX, queen::posY, queen::posX, queen::posY + i, true, fN));
+				queen::addStep(new step('Q', false, queen::posX, queen::posY, queen::posX, queen::posY + i, true, fN));
 			}
 			break;
 		}
 		else {
-			queen::addStep(new step('R', false, queen::posX, queen::posY, queen::posX, queen::posY + i, false, '\0'));
+			queen::addStep(new step('Q', false, queen::posX, queen::posY, queen::posX, queen::posY + i, false, '\0'));
 		}
 	}
 
@@ -237,12 +237,12 @@ void queen::blackQueenSetup(char** deck, step* lastStep) {
 			// can not continue moving to this side
 			if (deck[queen::posX][queen::posY - i] > 0) {
 				fN = fArr[(deck[queen::posX][queen::posY - i])];
-				queen::addStep(new step('R', false, queen::posX, queen::posY, queen::posX, queen::posY - i, true, fN));
+				queen::addStep(new step('Q', false, queen::posX, queen::posY, queen::posX, queen::posY - i, true, fN));
 			}
 			break;
 		}
 		else {
-			queen::addStep(new step('R', false, queen::posX, queen::posY, queen::posX, queen::posY - i, false, '\0'));
+			queen::addStep(new step('Q', false, queen::posX, queen::posY, queen::posX, queen::posY - i, false, '\0'));
 		}
 	}
 }
