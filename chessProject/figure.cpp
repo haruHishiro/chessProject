@@ -142,7 +142,7 @@ void figure::setAllocatedSteps(step** allocatedSteps, char stepsNumber) {
 }
 
 void figure::addStep(step* s) {
-	if (figure::stepsCount + 1 == figure::stepsNumber) {
+	if (figure::stepsCount + 1 >= figure::stepsNumber) {
 		figure::stepsNumber += 4;
 		figure::allocatedSteps = new step*[figure::stepsNumber];
 	}
