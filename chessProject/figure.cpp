@@ -231,7 +231,7 @@ void figure::whitePawnSetup(char** deck, step* lastStep) {
 	}
 
 	// eating on moove
-	if (figure::posY == 3 && lastStep->getFigureName() == 'P'
+	if (figure::posY == 3 && lastStep && lastStep->getFigureName() == 'P'
 		&& (figure::posX - 1 == lastStep->getPosXTo() || figure::posX + 1 == lastStep->getPosXTo())
 		&& lastStep->getPosYFrom() == 1
 		&& lastStep->getPosYTo() == 3) {

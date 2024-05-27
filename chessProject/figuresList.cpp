@@ -20,6 +20,17 @@ figure* figuresList::operator[](const unsigned short index) {
     return f;
 }
 
+char figuresList::getFiguresNumber() {
+    char counter = 0;
+    if (figuresList::isEmpty()) return counter;
+    figure* f = figuresList::firstFigure;
+    for (;f;) {
+        f = f->getNextFigure();
+        counter++;
+    }
+    return counter;
+}
+
 bool figuresList::isEmpty() {
     return figuresList::firstFigure == nullptr;
 }

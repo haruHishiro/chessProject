@@ -10,6 +10,8 @@ public:
 
 	figure* operator[] (const unsigned short index);
 
+	char getFiguresNumber();
+
 	bool isEmpty();
 	void addFigure(char figureName, bool isWhite, char posX, char posY);
 

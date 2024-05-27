@@ -59,42 +59,45 @@ void deck::setDificulty(unsigned char difficulty) {
 }
 
 void deck::setupStartPosition() {
-	deck::whiteFigures.addFigure('P', true , 0, 6);
-	deck::whiteFigures.addFigure('P', true , 1, 6);
-	deck::whiteFigures.addFigure('P', true , 2, 6);
-	deck::whiteFigures.addFigure('P', true , 3, 6);
-	deck::whiteFigures.addFigure('P', true , 4, 6);
-	deck::whiteFigures.addFigure('P', true , 5, 6);
+	deck::whiteFigures.addFigure('P', true , 6, 0);
+	deck::whiteFigures.addFigure('P', true , 6, 1);
+	deck::whiteFigures.addFigure('P', true , 6, 2);
+	deck::whiteFigures.addFigure('P', true , 6, 3);
+	deck::whiteFigures.addFigure('P', true , 6, 4);
+	deck::whiteFigures.addFigure('P', true , 6, 5);
 	deck::whiteFigures.addFigure('P', true , 6, 6);
-	deck::whiteFigures.addFigure('P', true , 7, 6);
+	deck::whiteFigures.addFigure('P', true , 6, 7);
 
-	deck::whiteFigures.addFigure('R', true, 0, 7);
-	deck::whiteFigures.addFigure('N', true, 1, 7);
-	deck::whiteFigures.addFigure('B', true, 2, 7);
-	deck::whiteFigures.addFigure('Q', true, 3, 7);
-	deck::whiteFigures.addFigure('K', true, 4, 7);
-	deck::whiteFigures.addFigure('B', true, 5, 7);
-	deck::whiteFigures.addFigure('N', true, 6, 7);
+	deck::whiteFigures.addFigure('R', true, 7, 0);
+	deck::whiteFigures.addFigure('N', true, 7, 1);
+	deck::whiteFigures.addFigure('B', true, 7, 2);
+	deck::whiteFigures.addFigure('Q', true, 7, 3);
+	deck::whiteFigures.addFigure('K', true, 7, 4);
+	deck::whiteFigures.addFigure('B', true, 7, 5);
+	deck::whiteFigures.addFigure('N', true, 7, 6);
 	deck::whiteFigures.addFigure('R', true, 7, 7);
 
+	deck::whiteFiguresNumber = deck::whiteFigures.getFiguresNumber();
 
-	deck::blackFigures.addFigure('P', false, 0, 1);
+	deck::blackFigures.addFigure('P', false, 1, 0);
 	deck::blackFigures.addFigure('P', false, 1, 1);
-	deck::blackFigures.addFigure('P', false, 2, 1);
-	deck::blackFigures.addFigure('P', false, 3, 1);
-	deck::blackFigures.addFigure('P', false, 4, 1);
-	deck::blackFigures.addFigure('P', false, 5, 1);
-	deck::blackFigures.addFigure('P', false, 6, 1);
-	deck::blackFigures.addFigure('P', false, 7, 1);
+	deck::blackFigures.addFigure('P', false, 1, 2);
+	deck::blackFigures.addFigure('P', false, 1, 3);
+	deck::blackFigures.addFigure('P', false, 1, 4);
+	deck::blackFigures.addFigure('P', false, 1, 5);
+	deck::blackFigures.addFigure('P', false, 1, 6);
+	deck::blackFigures.addFigure('P', false, 1, 7);
 
 	deck::blackFigures.addFigure('R', false, 0, 0);
-	deck::blackFigures.addFigure('N', false, 1, 0);
-	deck::blackFigures.addFigure('B', false, 2, 0);
-	deck::blackFigures.addFigure('Q', false, 3, 0);
-	deck::blackFigures.addFigure('K', false, 4, 0);
-	deck::blackFigures.addFigure('B', false, 5, 0);
-	deck::blackFigures.addFigure('N', false, 6, 0);
-	deck::blackFigures.addFigure('R', false, 7, 0);
+	deck::blackFigures.addFigure('N', false, 0, 1);
+	deck::blackFigures.addFigure('B', false, 0, 2);
+	deck::blackFigures.addFigure('Q', false, 0, 3);
+	deck::blackFigures.addFigure('K', false, 0, 4);
+	deck::blackFigures.addFigure('B', false, 0, 5);
+	deck::blackFigures.addFigure('N', false, 0, 6);
+	deck::blackFigures.addFigure('R', false, 0, 7);
+
+	deck::blackFiguresNumber = deck::blackFigures.getFiguresNumber();
 
 	deck::setupCurentDeck();
 }
@@ -536,9 +539,8 @@ void deck::setupCurentDeck() {
 		}
 	}
 
-
 	for (char i = 0; i < deck::whiteFiguresNumber; i++) {
-		char figureNameNumber;
+		char figureNameNumber = 0;
 		switch (whiteFigures[i]->getFigureName()) {
 		case 'P':
 			figureNameNumber = 1;
@@ -558,14 +560,12 @@ void deck::setupCurentDeck() {
 		case 'K':
 			figureNameNumber = 6;
 			break;
-		default:
-			figureNameNumber = 0;
-			break;
 		}
 		deck::curentChessDeck[deck::whiteFigures[i]->getPosX()][deck::whiteFigures[i]->getPosY()] = figureNameNumber;
 	}
+
 	for (char i = 0; i < deck::blackFiguresNumber; i++) {
-		char figureNameNumber;
+		char figureNameNumber = 0;
 		switch (blackFigures[i]->getFigureName()) {
 		case 'P':
 			figureNameNumber = -1;
@@ -584,9 +584,6 @@ void deck::setupCurentDeck() {
 			break;
 		case 'K':
 			figureNameNumber = -6;
-			break;
-		default:
-			figureNameNumber = 0;
 			break;
 		}
 		deck::curentChessDeck[deck::blackFigures[i]->getPosX()][deck::blackFigures[i]->getPosY()] = figureNameNumber;

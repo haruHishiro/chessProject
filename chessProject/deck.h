@@ -13,8 +13,6 @@ public:
 	void setDificulty(unsigned char difficulty);
 	void setupStartPosition();
 
-	//char** getDeck();
-	//void setDeck(char** chessDeck); // must be [8][8]
 	void doMove(step* move);
 
 	int getPositionScore();
