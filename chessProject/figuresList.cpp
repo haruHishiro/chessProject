@@ -25,22 +25,15 @@ bool figuresList::isEmpty() {
 }
 
 void figuresList::addFigure(char figureName, bool isWhite, char posX, char posY) {
-    switch (figureName) {
-    case 'P':
-        break;
-    case 'N':
-        break;
-    case 'B':
-        break;
-    case 'R':
-        break;
-    case 'Q':
-        break;
-    case 'K':
-        break;
-    default:
-        break;
+    figure* fig = new figure(figureName, isWhite, posX, posY);
+
+    if (figuresList::isEmpty()) {
+        figuresList::firstFigure = fig;
+        return;
     }
+
+    figure* f = figuresList::getLast();
+    f->setNextFigure(fig);
 }
 
 void figuresList::removeFirst() {
@@ -80,9 +73,14 @@ void figuresList::printFigures() {
 }
 
 figure* figuresList::getFirst() {
-    return nullptr;
+    return figuresList::firstFigure;
 }
 
 figure* figuresList::getLast() {
-    return nullptr;
+    if (figuresList::isEmpty()) return nullptr;
+    figure* f = figuresList::firstFigure;
+    while (f->getNextFigure()) {
+        f = f->getNextFigure();
+    }
+    return f;
 }

@@ -35,12 +35,32 @@ public:
 
 	void addStep(step* s);
 
-	virtual void setupSteps(char** deck, step* lastStep);
+	void setupSteps(char** deck, step* lastStep);
+	void whiteSetup(char** deck, step* lastStep);
+	void blackSetup(char** deck, step* lastStep);
+
+	void whitePawnSetup(char** deck, step* lastStep);
+	void blackPawnSetup(char** deck, step* lastStep);
+
+	void whiteKnightSetup(char** deck, step* lastStep);
+	void blackKnightSetup(char** deck, step* lastStep);
+
+	void whiteBishopSetup(char** deck, step* lastStep);
+	void blackBishopSetup(char** deck, step* lastStep);
+
+	void whiteRookSetup(char** deck, step* lastStep);
+	void blackRookSetup(char** deck, step* lastStep);
+
+	void whiteQueenSetup(char** deck, step* lastStep);
+	void blackQueenSetup(char** deck, step* lastStep);
+
+	void whiteKingSetup(char** deck, step* lastStep);
+	void blackKingSetup(char** deck, step* lastStep);
 
 	figure* getNextFigure();
 	void setNextFigure(figure* nextFigure);
 
-protected: // or protected or friend classes usage
+private: // or protected or friend classes usage
 	char figureName;
 	bool isWhite;
 

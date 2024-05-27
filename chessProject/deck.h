@@ -11,6 +11,7 @@ public:
 	deck(unsigned char curentDeep, unsigned char maxDeep);
 	~deck();
 	void setDificulty(unsigned char difficulty);
+	void setupStartPosition();
 
 	//char** getDeck();
 	//void setDeck(char** chessDeck); // must be [8][8]
@@ -39,7 +40,11 @@ public:
 	bool getIsDraw();
 	bool getIsEndGame();
 
+	void printDeck();
+
 private:
+	void setupCurentDeck();
+
 	void setupFlags();
 	// variables for difficulty
 	char difficulty;

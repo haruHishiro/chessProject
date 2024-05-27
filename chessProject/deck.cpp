@@ -1,11 +1,12 @@
 #include "deck.h"
 
+
 deck::deck(unsigned char difficulty) {
 	deck::setDificulty(difficulty);
 	deck::curentDeep = 0;
 	deck::botSideIsWhite = false;
 	deck::setupFlags();
-	
+
 	deck::curentChessDeck = new char* [8];
 	for (char i = 0; i < 8; i++) {
 		deck::curentChessDeck[i] = new char[8];
@@ -31,7 +32,7 @@ deck::~deck() {
 	for (unsigned char i = 0; i < deck::allocatedStepsNumber; i++) {
 		delete deck::deckTree[i];
 	}
-	
+
 	for (char i = 0; i < 8; i++) {
 		delete deck::curentChessDeck[i];
 	}
@@ -55,6 +56,47 @@ void deck::setDificulty(unsigned char difficulty) {
 	default:
 		deck::maxDeep = 1;
 	}
+}
+
+void deck::setupStartPosition() {
+	deck::whiteFigures.addFigure('P', true , 0, 6);
+	deck::whiteFigures.addFigure('P', true , 1, 6);
+	deck::whiteFigures.addFigure('P', true , 2, 6);
+	deck::whiteFigures.addFigure('P', true , 3, 6);
+	deck::whiteFigures.addFigure('P', true , 4, 6);
+	deck::whiteFigures.addFigure('P', true , 5, 6);
+	deck::whiteFigures.addFigure('P', true , 6, 6);
+	deck::whiteFigures.addFigure('P', true , 7, 6);
+
+	deck::whiteFigures.addFigure('R', true, 0, 7);
+	deck::whiteFigures.addFigure('N', true, 1, 7);
+	deck::whiteFigures.addFigure('B', true, 2, 7);
+	deck::whiteFigures.addFigure('Q', true, 3, 7);
+	deck::whiteFigures.addFigure('K', true, 4, 7);
+	deck::whiteFigures.addFigure('B', true, 5, 7);
+	deck::whiteFigures.addFigure('N', true, 6, 7);
+	deck::whiteFigures.addFigure('R', true, 7, 7);
+
+
+	deck::whiteFigures.addFigure('P', false, 0, 1);
+	deck::whiteFigures.addFigure('P', false, 1, 1);
+	deck::whiteFigures.addFigure('P', false, 2, 1);
+	deck::whiteFigures.addFigure('P', false, 3, 1);
+	deck::whiteFigures.addFigure('P', false, 4, 1);
+	deck::whiteFigures.addFigure('P', false, 5, 1);
+	deck::whiteFigures.addFigure('P', false, 6, 1);
+	deck::whiteFigures.addFigure('P', false, 7, 1);
+
+	deck::whiteFigures.addFigure('R', false, 0, 0);
+	deck::whiteFigures.addFigure('N', false, 1, 0);
+	deck::whiteFigures.addFigure('B', false, 2, 0);
+	deck::whiteFigures.addFigure('Q', false, 3, 0);
+	deck::whiteFigures.addFigure('K', false, 4, 0);
+	deck::whiteFigures.addFigure('B', false, 5, 0);
+	deck::whiteFigures.addFigure('N', false, 6, 0);
+	deck::whiteFigures.addFigure('R', false, 7, 0);
+
+	deck::setupCurentDeck();
 }
 
 void deck::doMove(step* move) {
@@ -117,7 +159,7 @@ void deck::doMove(step* move) {
 	default:
 		break;
 	}
-	
+
 	// if was eating delete eaten figure
 	if (move->getIsEat()) {
 		char eatenName = move->getEatenName();
@@ -147,15 +189,17 @@ void deck::doMove(step* move) {
 	deck::isWhiteMove = !deck::isWhiteMove;
 
 	deck::setupEndGameFlags();
+
+	deck::setupCurentDeck();
 }
 
 int deck::getPositionScore() {
-	     // position scoring function
-	    // criteries:
-	   // 1 - how many fields under white side control
-	  // 2 - how many fields under black side control
-	 // 3 - white figures cost
-	// 4 - black figures cost
+	// position scoring function
+   // criteries:
+  // 1 - how many fields under white side control
+ // 2 - how many fields under black side control
+// 3 - white figures cost
+// 4 - black figures cost
 
 	int score = 0;
 	char field_control_k = 10;
@@ -195,7 +239,7 @@ void deck::allocFiguresSteps() {
 	breanch->setFigures(deck::whiteFigures, deck::blackFigures);
 	breanch->setPosition(deck::curentChessDeck);
 	breanch->setIsWhiteMove(deck::isWhiteMove);
-	
+
 	if (deck::isWhiteMove) {
 		for (unsigned i = 0; i < deck::whiteFiguresNumber; i++) {
 			step** figureSteps = deck::whiteFigures[i]->getAllocatedSteps();
@@ -222,7 +266,7 @@ void deck::allocFiguresSteps() {
 			}
 		}
 	}
-	
+
 
 
 	delete breanch;
@@ -252,8 +296,8 @@ int deck::analyze() {
 		return deck::positionScore;
 	}
 
-	deck::deckTree = new deck* [deck::allocatedStepsNumber];
-	
+	deck::deckTree = new deck * [deck::allocatedStepsNumber];
+
 	for (unsigned short i = 0; i < allocatedStepsNumber; i++) {
 		deck::deckTree[i] = new deck(deck::difficulty, deck::curentDeep + 1);
 		deck::deckTree[i]->setIsWhiteMove(deck::isWhiteMove);
@@ -434,6 +478,118 @@ bool deck::getIsDraw() {
 
 bool deck::getIsEndGame() {
 	return deck::isEndGame;
+}
+
+void deck::printDeck() {
+	for (char i = 0; i < 8; i++) {
+		for (char j = 0; j < 8; j++) {
+			switch (deck::curentChessDeck[i][j]) {
+			case 1:
+				printf("P");
+				break;
+			case 2:
+				printf("N");
+				break;
+			case 3:
+				printf("B");
+				break;
+			case 4:
+				printf("R");
+				break;
+			case 5:
+				printf("Q");
+				break;
+			case 6:
+				printf("K");
+				break;
+			case -1:
+				printf("\033[1;31mP\033[1;0m");
+				break;
+			case -2:
+				printf("\033[1;31mN\033[1;0m");
+				break;
+			case -3:
+				printf("\033[1;31mB\033[1;0m");
+				break;
+			case -4:
+				printf("\033[1;31mR\033[1;0m");
+				break;
+			case -5:
+				printf("\033[1;31mQ\033[1;0m");
+				break;
+			case -6:
+				printf("\033[1;31mK\033[1;0m");
+				break;
+			default:
+				printf(".");
+				break;
+			}
+		}
+		printf("\n");
+	}
+}
+
+void deck::setupCurentDeck() {
+	for (char i = 0; i < 8; i++) {
+		for (char j = 0; j < 8; j++) {
+			deck::curentChessDeck[i][j] = 0;
+		}
+	}
+
+	for (char i = 0; i < deck::whiteFiguresNumber; i++) {
+		char figureNameNumber;
+		switch (whiteFigures[i]->getFigureName()) {
+		case 'P':
+			figureNameNumber = 1;
+			break;
+		case 'N':
+			figureNameNumber = 2;
+			break;
+		case 'B':
+			figureNameNumber = 3;
+			break;
+		case 'R':
+			figureNameNumber = 4;
+			break;
+		case 'Q':
+			figureNameNumber = 5;
+			break;
+		case 'K':
+			figureNameNumber = 6;
+			break;
+		default:
+			figureNameNumber = 0;
+			break;
+		}
+		deck::curentChessDeck[deck::whiteFigures[i]->getPosX()][deck::whiteFigures[i]->getPosY()] = figureNameNumber;
+	}
+	for (char i = 0; i < deck::blackFiguresNumber; i++) {
+		char figureNameNumber;
+		switch (whiteFigures[i]->getFigureName()) {
+		case 'P':
+			figureNameNumber = -1;
+			break;
+		case 'N':
+			figureNameNumber = -2;
+			break;
+		case 'B':
+			figureNameNumber = -3;
+			break;
+		case 'R':
+			figureNameNumber = -4;
+			break;
+		case 'Q':
+			figureNameNumber = -5;
+			break;
+		case 'K':
+			figureNameNumber = -6;
+			break;
+		default:
+			figureNameNumber = 0;
+			break;
+		}
+		deck::curentChessDeck[deck::whiteFigures[i]->getPosX()][deck::whiteFigures[i]->getPosY()] = figureNameNumber;
+	}
 }
 
 void deck::setupFlags() {
