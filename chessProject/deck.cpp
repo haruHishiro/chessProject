@@ -185,7 +185,48 @@ void deck::setupFiguresSteps() {
 			deck::blackFigures[i]->setupSteps(deck::curentChessDeck, notation.getLast());
 		}
 	}
-	 // allocated figures steps initiation
+}
+
+void deck::allocFiguresSteps() {
+	deck::setupCheck();
+
+	deck* breanch = new deck(deck::curentDeep, deck::maxDeep);
+
+	breanch->setFigures(deck::whiteFigures, deck::blackFigures);
+	breanch->setPosition(deck::curentChessDeck);
+	breanch->setIsWhiteMove(deck::isWhiteMove);
+	
+	if (deck::isWhiteMove) {
+		for (unsigned i = 0; i < deck::whiteFiguresNumber; i++) {
+			step** figureSteps = deck::whiteFigures[i]->getAllocatedSteps();
+			for (unsigned j = 0; j < deck::whiteFigures[i]->getStepsCount(); j++) {
+				breanch->doMove(figureSteps[j]);
+				breanch->setIsWhiteMove(deck::isWhiteMove);
+				breanch->setupCheck();
+				if (!(breanch->getIsCheck())) {
+					deck::allocatedSteps.pushBack(figureSteps[j]);
+				}
+			}
+		}
+	}
+	else {
+		for (unsigned i = 0; i < deck::blackFiguresNumber; i++) {
+			step** figureSteps = deck::blackFigures[i]->getAllocatedSteps();
+			for (unsigned j = 0; j < deck::blackFigures[i]->getStepsCount(); j++) {
+				breanch->doMove(figureSteps[j]);
+				breanch->setIsWhiteMove(deck::isWhiteMove);
+				breanch->setupCheck();
+				if (!(breanch->getIsCheck())) {
+					deck::allocatedSteps.pushBack(figureSteps[j]);
+				}
+			}
+		}
+	}
+	
+
+
+	delete breanch;
+
 }
 
 int deck::analyze() {
@@ -305,6 +346,94 @@ void deck::setFigures(figuresList whiteFigures, figuresList blackFigures) {
 }
 
 void deck::setupEndGameFlags() {
+}
+
+void deck::setupCheck() {
+	if (deck::isWhiteMove) {
+		for (unsigned i = 0; i < deck::blackFiguresNumber; i++) {
+			deck::blackFigures[i]->setupSteps(deck::curentChessDeck, deck::getLastMove());
+			for (unsigned j = 0; j < deck::blackFigures[i]->getStepsCount(); j++)
+				if (deck::blackFigures[i]->getAllocatedSteps()[j]->getIsEat() && deck::blackFigures[i]->getAllocatedSteps()[j]->getEatenName() == 'K') {
+					deck::isCheck = 1;
+					return;
+				}
+		}
+	}
+	else {
+		for (unsigned i = 0; i < deck::whiteFiguresNumber; i++) {
+			deck::whiteFigures[i]->setupSteps(deck::curentChessDeck, deck::getLastMove());
+			for (unsigned j = 0; j < deck::whiteFigures[i]->getStepsCount(); j++)
+				if (deck::whiteFigures[i]->getAllocatedSteps()[j]->getIsEat() && deck::whiteFigures[i]->getAllocatedSteps()[j]->getEatenName() == 'K') {
+					deck::isCheck = 1;
+					return;
+				}
+		}
+	}
+
+	deck::isCheck = 0;
+}
+
+void deck::setupDraw() {
+	if (deck::isEndGame) {
+		return;
+	}
+
+	deck::isDraw = 0;
+
+	if (deck::whiteFiguresNumber == 1 && deck::blackFiguresNumber == 1) {
+		deck::isDraw = true;
+		deck::isEndGame = true;
+	}
+	else if (deck::whiteFiguresNumber == 2 && deck::blackFiguresNumber == 1) {
+		if (deck::whiteFigures[0]->getFigureName() == 'K') {
+			char figureName = deck::whiteFigures[1]->getFigureName();
+			if (figureName == 'N' || figureName == 'B') {
+				deck::isDraw = true;
+				deck::isEndGame = true;
+			}
+		}
+		else {
+			char figureName = deck::whiteFigures[0]->getFigureName();
+			if (figureName == 'N' || figureName == 'B') {
+				deck::isDraw = true;
+				deck::isEndGame = true;
+			}
+		}
+	}
+	else if (deck::whiteFiguresNumber == 1 && deck::blackFiguresNumber == 2) {
+		if (deck::blackFigures[0]->getFigureName() == 'K') {
+			char figureName = deck::blackFigures[1]->getFigureName();
+			if (figureName == 'N' || figureName == 'B') {
+				deck::isDraw = true;
+				deck::isEndGame = true;
+			}
+		}
+		else {
+			char figureName = deck::blackFigures[0]->getFigureName();
+			if (figureName == 'N' || figureName == 'B') {
+				deck::isDraw = true;
+				deck::isEndGame = true;
+			}
+		}
+	}
+}
+
+void deck::setupIsEndGame() {
+	if (!deck::allocatedStepsNumber) {
+		deck::isEndGame = true;
+	}
+}
+
+bool deck::getIsCheck() {
+	return deck::isCheck;
+}
+
+bool deck::getIsDraw() {
+	return deck::isDraw;
+}
+
+bool deck::getIsEndGame() {
+	return deck::isEndGame;
 }
 
 void deck::setupFlags() {

@@ -19,6 +19,7 @@ public:
 	int getPositionScore();
 
 	void setupFiguresSteps();
+	void allocFiguresSteps();
 	int analyze();
 
 	void setIsWhiteMove(bool isWhiteMove);
@@ -30,6 +31,13 @@ public:
 	void setFigures(figuresList whiteFigures, figuresList blackFigures);
 
 	void setupEndGameFlags();
+	void setupCheck();
+	void setupDraw();
+	void setupIsEndGame();
+
+	bool getIsCheck();
+	bool getIsDraw();
+	bool getIsEndGame();
 
 private:
 	void setupFlags();
