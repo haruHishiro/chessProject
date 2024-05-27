@@ -70,6 +70,7 @@ void figuresList::printFigures() {
         printf("%c", f->getFigureName());
         f = f->getNextFigure();
     } while (f);
+    printf("\n");
 }
 
 figure* figuresList::getFirst() {

@@ -536,6 +536,7 @@ void deck::setupCurentDeck() {
 		}
 	}
 
+
 	for (char i = 0; i < deck::whiteFiguresNumber; i++) {
 		char figureNameNumber;
 		switch (whiteFigures[i]->getFigureName()) {
@@ -565,7 +566,7 @@ void deck::setupCurentDeck() {
 	}
 	for (char i = 0; i < deck::blackFiguresNumber; i++) {
 		char figureNameNumber;
-		switch (whiteFigures[i]->getFigureName()) {
+		switch (blackFigures[i]->getFigureName()) {
 		case 'P':
 			figureNameNumber = -1;
 			break;
@@ -588,7 +589,7 @@ void deck::setupCurentDeck() {
 			figureNameNumber = 0;
 			break;
 		}
-		deck::curentChessDeck[deck::whiteFigures[i]->getPosX()][deck::whiteFigures[i]->getPosY()] = figureNameNumber;
+		deck::curentChessDeck[deck::blackFigures[i]->getPosX()][deck::blackFigures[i]->getPosY()] = figureNameNumber;
 	}
 }
 
