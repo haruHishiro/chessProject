@@ -34,6 +34,7 @@ public:
 	void setAllocatedSteps(step** allocatedSteps, char stepsNumber);
 
 	void addStep(step* s);
+	void printSteps();
 
 	void setupSteps(char** deck, step* lastStep);
 	void whiteSetup(char** deck, step* lastStep);

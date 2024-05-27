@@ -7,9 +7,10 @@ int main() {
 
 	chessDeck->setupStartPosition();
 	chessDeck->printDeck();
+
 	
 
-	chessDeck->setupFiguresSteps();
+	chessDeck->getBestStep();
 
 	return 0;
 }

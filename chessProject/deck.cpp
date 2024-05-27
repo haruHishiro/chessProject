@@ -59,43 +59,43 @@ void deck::setDificulty(unsigned char difficulty) {
 }
 
 void deck::setupStartPosition() {
-	deck::whiteFigures.addFigure('P', true , 6, 0);
-	deck::whiteFigures.addFigure('P', true , 6, 1);
-	deck::whiteFigures.addFigure('P', true , 6, 2);
-	deck::whiteFigures.addFigure('P', true , 6, 3);
-	deck::whiteFigures.addFigure('P', true , 6, 4);
-	deck::whiteFigures.addFigure('P', true , 6, 5);
+	deck::whiteFigures.addFigure('P', true , 0, 6);
+	deck::whiteFigures.addFigure('P', true , 1, 6);
+	deck::whiteFigures.addFigure('P', true , 2, 6);
+	deck::whiteFigures.addFigure('P', true , 3, 6);
+	deck::whiteFigures.addFigure('P', true , 4, 6);
+	deck::whiteFigures.addFigure('P', true , 5, 6);
 	deck::whiteFigures.addFigure('P', true , 6, 6);
-	deck::whiteFigures.addFigure('P', true , 6, 7);
+	deck::whiteFigures.addFigure('P', true , 7, 6);
 
-	deck::whiteFigures.addFigure('R', true, 7, 0);
-	deck::whiteFigures.addFigure('N', true, 7, 1);
-	deck::whiteFigures.addFigure('B', true, 7, 2);
-	deck::whiteFigures.addFigure('Q', true, 7, 3);
-	deck::whiteFigures.addFigure('K', true, 7, 4);
-	deck::whiteFigures.addFigure('B', true, 7, 5);
-	deck::whiteFigures.addFigure('N', true, 7, 6);
+	deck::whiteFigures.addFigure('R', true, 0, 7);
+	deck::whiteFigures.addFigure('N', true, 1, 7);
+	deck::whiteFigures.addFigure('B', true, 2, 7);
+	deck::whiteFigures.addFigure('Q', true, 3, 7);
+	deck::whiteFigures.addFigure('K', true, 4, 7);
+	deck::whiteFigures.addFigure('B', true, 5, 7);
+	deck::whiteFigures.addFigure('N', true, 6, 7);
 	deck::whiteFigures.addFigure('R', true, 7, 7);
 
 	deck::whiteFiguresNumber = deck::whiteFigures.getFiguresNumber();
 
-	deck::blackFigures.addFigure('P', false, 1, 0);
+	deck::blackFigures.addFigure('P', false, 0, 1);
 	deck::blackFigures.addFigure('P', false, 1, 1);
-	deck::blackFigures.addFigure('P', false, 1, 2);
-	deck::blackFigures.addFigure('P', false, 1, 3);
-	deck::blackFigures.addFigure('P', false, 1, 4);
-	deck::blackFigures.addFigure('P', false, 1, 5);
-	deck::blackFigures.addFigure('P', false, 1, 6);
-	deck::blackFigures.addFigure('P', false, 1, 7);
+	deck::blackFigures.addFigure('P', false, 2, 1);
+	deck::blackFigures.addFigure('P', false, 3, 1);
+	deck::blackFigures.addFigure('P', false, 4, 1);
+	deck::blackFigures.addFigure('P', false, 5, 1);
+	deck::blackFigures.addFigure('P', false, 6, 1);
+	deck::blackFigures.addFigure('P', false, 7, 1);
 
 	deck::blackFigures.addFigure('R', false, 0, 0);
-	deck::blackFigures.addFigure('N', false, 0, 1);
-	deck::blackFigures.addFigure('B', false, 0, 2);
-	deck::blackFigures.addFigure('Q', false, 0, 3);
-	deck::blackFigures.addFigure('K', false, 0, 4);
-	deck::blackFigures.addFigure('B', false, 0, 5);
-	deck::blackFigures.addFigure('N', false, 0, 6);
-	deck::blackFigures.addFigure('R', false, 0, 7);
+	deck::blackFigures.addFigure('N', false, 1, 0);
+	deck::blackFigures.addFigure('B', false, 2, 0);
+	deck::blackFigures.addFigure('Q', false, 3, 0);
+	deck::blackFigures.addFigure('K', false, 4, 0);
+	deck::blackFigures.addFigure('B', false, 5, 0);
+	deck::blackFigures.addFigure('N', false, 6, 0);
+	deck::blackFigures.addFigure('R', false, 7, 0);
 
 	deck::blackFiguresNumber = deck::blackFigures.getFiguresNumber();
 
@@ -222,9 +222,13 @@ int deck::getPositionScore() {
 
 void deck::setupFiguresSteps() {
 	// all steps initiation
-	if (deck::isWhiteMove) {
+	if (deck::isWhiteMove) {		
 		for (unsigned char i = 0; i < deck::whiteFiguresNumber; i++) {
+			//deck::printDeck();
 			deck::whiteFigures[i]->setupSteps(deck::curentChessDeck, notation.getLast());
+			printf("%d:%c->",i, deck::whiteFigures[i]->getFigureName());
+			deck::whiteFigures[i]->printSteps();
+			printf("\n");
 		}
 	}
 	else {
@@ -232,28 +236,37 @@ void deck::setupFiguresSteps() {
 			deck::blackFigures[i]->setupSteps(deck::curentChessDeck, notation.getLast());
 		}
 	}
+
+
 }
 
 void deck::allocFiguresSteps() {
 	deck::setupCheck();
-
+	
 	deck* breanch = new deck(deck::curentDeep, deck::maxDeep);
 
-	breanch->setFigures(deck::whiteFigures, deck::blackFigures);
+	breanch->setupStartPosition();
+	breanch->setNotation(deck::notation);
 	breanch->setPosition(deck::curentChessDeck);
+	
 	breanch->setIsWhiteMove(deck::isWhiteMove);
 
 	if (deck::isWhiteMove) {
 		for (unsigned i = 0; i < deck::whiteFiguresNumber; i++) {
+			//if (!deck::whiteFigures[i]->getStepsCount()) continue;
+			printf("%c\n", deck::whiteFigures[i]->getFigureName());
 			step** figureSteps = deck::whiteFigures[i]->getAllocatedSteps();
 			for (unsigned j = 0; j < deck::whiteFigures[i]->getStepsCount(); j++) {
 				breanch->doMove(figureSteps[j]);
 				breanch->setIsWhiteMove(deck::isWhiteMove);
 				breanch->setupCheck();
 				if (!(breanch->getIsCheck())) {
+					printf("here\n");
+					// закончили здесь
 					deck::allocatedSteps.pushBack(figureSteps[j]);
 				}
 			}
+			deck::allocatedSteps.printNotation();
 		}
 	}
 	else {
@@ -270,10 +283,7 @@ void deck::allocFiguresSteps() {
 		}
 	}
 
-
-
 	delete breanch;
-
 }
 
 int deck::analyze() {
@@ -388,8 +398,20 @@ void deck::setPosition(char** chessDeck) {
 }
 
 void deck::setFigures(figuresList whiteFigures, figuresList blackFigures) {
-	deck::whiteFigures = whiteFigures;
-	deck::blackFigures = blackFigures;
+	//printf("here 0\n");
+	for (unsigned short i = 0; i < whiteFigures.getFiguresNumber(); i++) {
+		deck::whiteFigures.addFigure(whiteFigures[i]->getFigureName(), whiteFigures[i]->getIsWhite(), whiteFigures[i]->getPosX(), whiteFigures[i]->getPosY());
+	}
+	//printf("here 1\n");
+	for (unsigned short i = 0; i < blackFigures.getFiguresNumber(); i++) {
+		deck::blackFigures.addFigure(blackFigures[i]->getFigureName(), blackFigures[i]->getIsWhite(), blackFigures[i]->getPosX(), blackFigures[i]->getPosY());
+	}
+	//printf("here 2\n");
+	deck::whiteFiguresNumber = deck::whiteFigures.getFiguresNumber();
+	deck::blackFiguresNumber = deck::blackFigures.getFiguresNumber();
+	//printf("here 3\n");
+	//printf("%d %d\n", whiteFiguresNumber, blackFiguresNumber);
+	return;
 }
 
 void deck::setupEndGameFlags() {
@@ -530,6 +552,13 @@ void deck::printDeck() {
 		}
 		printf("\n");
 	}
+}
+
+step* deck::getBestStep() {
+	deck::setupFiguresSteps();
+	deck::allocFiguresSteps();
+
+	return nullptr;
 }
 
 void deck::setupCurentDeck() {

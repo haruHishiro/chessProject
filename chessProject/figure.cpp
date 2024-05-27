@@ -1,4 +1,5 @@
 #include "figure.h"
+#include <stdio.h>
 
 
 figure::figure() {
@@ -142,12 +143,22 @@ void figure::setAllocatedSteps(step** allocatedSteps, char stepsNumber) {
 }
 
 void figure::addStep(step* s) {
+	//printf("%c", s->getFigureName());
 	if (figure::stepsCount + 1 >= figure::stepsNumber) {
-		figure::stepsNumber += 4;
+		figure::stepsNumber += 30;
 		figure::allocatedSteps = new step*[figure::stepsNumber];
 	}
 	figure::allocatedSteps[stepsCount] = s;
 	figure::stepsCount++;
+
+	//printf("%d\n", figure::stepsCount);
+	//printf("%c%c%d->%c%d\n", s->getFigureName(), (s->getPosYFrom() + 'a'), s->getPosXFrom(), (s->getPosYTo() + 'a'), s->getPosXTo());
+}
+
+void figure::printSteps() {
+	for (unsigned i = 0; i < figure::stepsCount; i++) {
+		figure::allocatedSteps[i]->printStep();
+	}
 }
 
 void figure::setupSteps(char** deck, step* lastStep){
@@ -207,8 +218,9 @@ void figure::blackSetup(char** deck, step* lastStep) {
 
 void figure::whitePawnSetup(char** deck, step* lastStep) {
 	const char fArr[] = "\0PNBRQK";
-	// double move
+	
 	if (figure::posY == 6) {
+		// double move
 		if (deck[figure::posX][figure::posY - 1] == 0) {
 			figure::addStep(new step('P', true, figure::posX, figure::posY, figure::posX, figure::posY - 1, false, -1));
 			if (deck[figure::posX][figure::posY - 2] == 0) {
@@ -216,17 +228,18 @@ void figure::whitePawnSetup(char** deck, step* lastStep) {
 			}
 		}
 	}
-
-	// default moving forward
-	if (deck[figure::posX][figure::posY - 1] == 0) {
-		if (figure::posY - 1 > 0) {
-			figure::addStep(new step('P', true, figure::posX, figure::posY, figure::posX, figure::posY - 1, false, -1));
-		}
-		if (figure::posY - 1 == 0) {
-			figure::addStep(new step('P', true, figure::posX, figure::posY, figure::posX, figure::posY - 1, false, -1, true, 'N'));
-			figure::addStep(new step('P', true, figure::posX, figure::posY, figure::posX, figure::posY - 1, false, -1, true, 'B'));
-			figure::addStep(new step('P', true, figure::posX, figure::posY, figure::posX, figure::posY - 1, false, -1, true, 'R'));
-			figure::addStep(new step('P', true, figure::posX, figure::posY, figure::posX, figure::posY - 1, false, -1, true, 'Q'));
+	else {
+		// default moving forward
+		if (deck[figure::posX][figure::posY - 1] == 0) {
+			if (figure::posY - 1 > 0) {
+				figure::addStep(new step('P', true, figure::posX, figure::posY, figure::posX, figure::posY - 1, false, -1));
+			}
+			if (figure::posY - 1 == 0) {
+				figure::addStep(new step('P', true, figure::posX, figure::posY, figure::posX, figure::posY - 1, false, -1, true, 'N'));
+				figure::addStep(new step('P', true, figure::posX, figure::posY, figure::posX, figure::posY - 1, false, -1, true, 'B'));
+				figure::addStep(new step('P', true, figure::posX, figure::posY, figure::posX, figure::posY - 1, false, -1, true, 'R'));
+				figure::addStep(new step('P', true, figure::posX, figure::posY, figure::posX, figure::posY - 1, false, -1, true, 'Q'));
+			}
 		}
 	}
 
@@ -270,8 +283,9 @@ void figure::whitePawnSetup(char** deck, step* lastStep) {
 
 void figure::blackPawnSetup(char** deck, step* lastStep) {
 	const char fArr[] = "\0PNBRQK";
-	// double move
+	
 	if (figure::posY == 1) {
+		// double move
 		if (deck[figure::posX][figure::posY + 1] == 0) {
 			figure::addStep(new step('P', false, figure::posX, figure::posY, figure::posX, figure::posY + 1, false, -1));
 			if (deck[figure::posX][figure::posY + 2] == 0) {
@@ -279,19 +293,22 @@ void figure::blackPawnSetup(char** deck, step* lastStep) {
 			}
 		}
 	}
-
-	// default move forward
-	if (deck[figure::posX][figure::posY + 1] == 0) {
-		if (figure::posY + 1 < 7) {
-			figure::addStep(new step('P', false, figure::posX, figure::posY, figure::posX, figure::posY + 1, false, -1));
-		}
-		if (figure::posY + 1 == 7) {
-			figure::addStep(new step('P', false, figure::posX, figure::posY, figure::posX, figure::posY + 1, false, -1, true, 'N'));
-			figure::addStep(new step('P', false, figure::posX, figure::posY, figure::posX, figure::posY + 1, false, -1, true, 'B'));
-			figure::addStep(new step('P', false, figure::posX, figure::posY, figure::posX, figure::posY + 1, false, -1, true, 'R'));
-			figure::addStep(new step('P', false, figure::posX, figure::posY, figure::posX, figure::posY + 1, false, -1, true, 'Q'));
+	else {
+		// default move forward
+		if (deck[figure::posX][figure::posY + 1] == 0) {
+			if (figure::posY + 1 < 7) {
+				figure::addStep(new step('P', false, figure::posX, figure::posY, figure::posX, figure::posY + 1, false, -1));
+			}
+			if (figure::posY + 1 == 7) {
+				figure::addStep(new step('P', false, figure::posX, figure::posY, figure::posX, figure::posY + 1, false, -1, true, 'N'));
+				figure::addStep(new step('P', false, figure::posX, figure::posY, figure::posX, figure::posY + 1, false, -1, true, 'B'));
+				figure::addStep(new step('P', false, figure::posX, figure::posY, figure::posX, figure::posY + 1, false, -1, true, 'R'));
+				figure::addStep(new step('P', false, figure::posX, figure::posY, figure::posX, figure::posY + 1, false, -1, true, 'Q'));
+			}
 		}
 	}
+
+	
 
 	// eating on moove
 	if (figure::posY == 4 && lastStep->getFigureName() == 'P'
@@ -500,6 +517,7 @@ void figure::blackKnightSetup(char** deck, step* lastStep) {
 }
 
 void figure::whiteBishopSetup(char** deck, step* lastStep) {
+
 	const char fArr[] = "\0PNBRQK";
 	char fN;
 	for (char i = 1; figure::posX + i < 8 && figure::posY + i < 8; i++) {
@@ -507,11 +525,13 @@ void figure::whiteBishopSetup(char** deck, step* lastStep) {
 			// can not continue moving to this side
 			if (deck[figure::posX + i][figure::posY + i] < 0) {
 				fN = fArr[(deck[figure::posX + i][figure::posY + i]) * (-1)];
+				//printf("here");
 				figure::addStep(new step('B', true, figure::posX, figure::posY, figure::posX + i, figure::posY + i, true, fN));
 			}
 			break;
 		}
 		else {
+			//printf("here");
 			figure::addStep(new step('B', true, figure::posX, figure::posY, figure::posX + i, figure::posY + i, false, '\0'));
 		}
 	}
@@ -521,11 +541,13 @@ void figure::whiteBishopSetup(char** deck, step* lastStep) {
 			// can not continue moving to this side
 			if (deck[figure::posX - i][figure::posY - i] < 0) {
 				fN = fArr[(deck[figure::posX - i][figure::posY - i]) * (-1)];
+				//printf("here");
 				figure::addStep(new step('B', true, figure::posX, figure::posY, figure::posX - i, figure::posY - i, true, fN));
 			}
 			break;
 		}
 		else {
+			//printf("here\n%d %d\n",posX -i, posY -i);
 			figure::addStep(new step('B', true, figure::posX, figure::posY, figure::posX - i, figure::posY - i, false, '\0'));
 		}
 	}
@@ -535,11 +557,13 @@ void figure::whiteBishopSetup(char** deck, step* lastStep) {
 			// can not continue moving to this side
 			if (deck[figure::posX + i][figure::posY - i] < 0) {
 				fN = fArr[(deck[figure::posX + i][figure::posY - i]) * (-1)];
+				//printf("here");
 				figure::addStep(new step('B', true, figure::posX, figure::posY, figure::posX + i, figure::posY - i, true, fN));
 			}
 			break;
 		}
 		else {
+			//printf("here");
 			figure::addStep(new step('B', true, figure::posX, figure::posY, figure::posX + i, figure::posY - i, false, '\0'));
 		}
 	}
@@ -549,11 +573,13 @@ void figure::whiteBishopSetup(char** deck, step* lastStep) {
 			// can not continue moving to this side
 			if (deck[figure::posX - i][figure::posY + i] < 0) {
 				fN = fArr[(deck[figure::posX - i][figure::posY + i]) * (-1)];
+				//printf("here");
 				figure::addStep(new step('B', true, figure::posX, figure::posY, figure::posX - i, figure::posY + i, true, fN));
 			}
 			break;
 		}
 		else {
+			//printf("here");
 			figure::addStep(new step('B', true, figure::posX, figure::posY, figure::posX - i, figure::posY + i, false, '\0'));
 		}
 	}
@@ -985,13 +1011,13 @@ void figure::whiteKingSetup(char** deck, step* lastStep) {
 	char fN;
 
 	if (figure::posX + 1 < 8) {
+		if (deck[figure::posX + 1][figure::posY] == 0) {
+			figure::addStep(new step('K', true, figure::posX, figure::posY, figure::posX + 1, figure::posY, false, '\0'));
+		}
+
 		if (deck[figure::posX + 1][figure::posY] < 0) {
 			fN = fArr[(deck[figure::posX + 1][figure::posY]) * (-1)];
 			figure::addStep(new step('K', true, figure::posX, figure::posY, figure::posX + 1, figure::posY, true, fN));
-		}
-
-		if (deck[figure::posX + 1][figure::posY] == 0) {
-			figure::addStep(new step('K', true, figure::posX, figure::posY, figure::posX + 1, figure::posY, false, '\0'));
 		}
 	}
 
@@ -1012,7 +1038,7 @@ void figure::whiteKingSetup(char** deck, step* lastStep) {
 			figure::addStep(new step('K', true, figure::posX, figure::posY, figure::posX, figure::posY + 1, true, fN));
 		}
 
-		if (deck[figure::posX][figure::posY + 1] = 0) {
+		if (deck[figure::posX][figure::posY + 1] == 0) {
 			figure::addStep(new step('K', true, figure::posX, figure::posY, figure::posX, figure::posY + 1, false, '\0'));
 		}
 	}
@@ -1023,7 +1049,7 @@ void figure::whiteKingSetup(char** deck, step* lastStep) {
 			figure::addStep(new step('K', true, figure::posX, figure::posY, figure::posX, figure::posY - 1, true, fN));
 		}
 
-		if (deck[figure::posX][figure::posY - 1] = 0) {
+		if (deck[figure::posX][figure::posY - 1] == 0) {
 			figure::addStep(new step('K', true, figure::posX, figure::posY, figure::posX, figure::posY - 1, false, '\0'));
 		}
 	}
@@ -1105,7 +1131,7 @@ void figure::blackKingSetup(char** deck, step* lastStep) {
 			figure::addStep(new step('K', true, figure::posX, figure::posY, figure::posX, figure::posY + 1, true, fN));
 		}
 
-		if (deck[figure::posX][figure::posY + 1] = 0) {
+		if (deck[figure::posX][figure::posY + 1] == 0) {
 			figure::addStep(new step('K', true, figure::posX, figure::posY, figure::posX, figure::posY + 1, false, '\0'));
 		}
 	}
@@ -1116,7 +1142,7 @@ void figure::blackKingSetup(char** deck, step* lastStep) {
 			figure::addStep(new step('K', true, figure::posX, figure::posY, figure::posX, figure::posY - 1, true, fN));
 		}
 
-		if (deck[figure::posX][figure::posY - 1] = 0) {
+		if (deck[figure::posX][figure::posY - 1] == 0) {
 			figure::addStep(new step('K', true, figure::posX, figure::posY, figure::posX, figure::posY - 1, false, '\0'));
 		}
 	}

@@ -40,6 +40,8 @@ public:
 	bool getPwnOnLast();                        // if pawn more not pawn
 	void setPwnOnLast(bool pwnOnLast);
 
+	void printStep();
+
 private:
 	unsigned short stepNumber;      // more than 255 steps?
 	bool isWhiteStep;              // step side

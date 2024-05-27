@@ -40,13 +40,15 @@ public:
 
 	void printDeck();
 
+	step* getBestStep();
+
 private:
 	void setupCurentDeck();
 
 	void setupFlags();
 	// variables for difficulty
 	char difficulty;
-	unsigned char maxDeep;      // how many moves we want to analyze
+	unsigned char maxDeep;      // how deep we want to analyze
 	unsigned char curentDeep;
 
 	char** curentChessDeck;    // main deck

@@ -1,4 +1,5 @@
 #include "step.h"
+#include <stdio.h>
 
 
 step::step() {
@@ -82,3 +83,12 @@ char step::getNewFigureName() { return step::figureName; }
 void step::setNewFigureName(char newFigureName) { step::newFigureName = newFigureName; }
 bool step::getPwnOnLast() { return step::pwnOnLast; }
 void step::setPwnOnLast(bool pwnOnLast) { step::pwnOnLast = pwnOnLast; }
+
+void step::printStep() {
+	if (step::getIsWhiteStep()) {
+		printf(" %d. %c%c%d->%c%d",step::stepNumber, step::figureName, (step::posXFrom + 'a'), step::posYFrom, (step::posXTo + 'a'), step::posYTo);
+	}
+	else {
+		printf(" %c%c%d->%c%d\n",step::figureName, (step::posXFrom + 'a'), step::posYFrom, (step::posXTo + 'a'), step::posYTo);
+	}
+}
