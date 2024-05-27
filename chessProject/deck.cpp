@@ -78,23 +78,23 @@ void deck::setupStartPosition() {
 	deck::whiteFigures.addFigure('R', true, 7, 7);
 
 
-	deck::whiteFigures.addFigure('P', false, 0, 1);
-	deck::whiteFigures.addFigure('P', false, 1, 1);
-	deck::whiteFigures.addFigure('P', false, 2, 1);
-	deck::whiteFigures.addFigure('P', false, 3, 1);
-	deck::whiteFigures.addFigure('P', false, 4, 1);
-	deck::whiteFigures.addFigure('P', false, 5, 1);
-	deck::whiteFigures.addFigure('P', false, 6, 1);
-	deck::whiteFigures.addFigure('P', false, 7, 1);
+	deck::blackFigures.addFigure('P', false, 0, 1);
+	deck::blackFigures.addFigure('P', false, 1, 1);
+	deck::blackFigures.addFigure('P', false, 2, 1);
+	deck::blackFigures.addFigure('P', false, 3, 1);
+	deck::blackFigures.addFigure('P', false, 4, 1);
+	deck::blackFigures.addFigure('P', false, 5, 1);
+	deck::blackFigures.addFigure('P', false, 6, 1);
+	deck::blackFigures.addFigure('P', false, 7, 1);
 
-	deck::whiteFigures.addFigure('R', false, 0, 0);
-	deck::whiteFigures.addFigure('N', false, 1, 0);
-	deck::whiteFigures.addFigure('B', false, 2, 0);
-	deck::whiteFigures.addFigure('Q', false, 3, 0);
-	deck::whiteFigures.addFigure('K', false, 4, 0);
-	deck::whiteFigures.addFigure('B', false, 5, 0);
-	deck::whiteFigures.addFigure('N', false, 6, 0);
-	deck::whiteFigures.addFigure('R', false, 7, 0);
+	deck::blackFigures.addFigure('R', false, 0, 0);
+	deck::blackFigures.addFigure('N', false, 1, 0);
+	deck::blackFigures.addFigure('B', false, 2, 0);
+	deck::blackFigures.addFigure('Q', false, 3, 0);
+	deck::blackFigures.addFigure('K', false, 4, 0);
+	deck::blackFigures.addFigure('B', false, 5, 0);
+	deck::blackFigures.addFigure('N', false, 6, 0);
+	deck::blackFigures.addFigure('R', false, 7, 0);
 
 	deck::setupCurentDeck();
 }
