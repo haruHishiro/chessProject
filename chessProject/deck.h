@@ -59,9 +59,9 @@ private:
 	stepList notation;
 	step* bestStep;
 
-	figuresList whiteFigures;
+	figuresList* whiteFigures;
 	char whiteFiguresNumber;
-	figuresList blackFigures;
+	figuresList* blackFigures;
 	char blackFiguresNumber;
 
 	stepList allocatedSteps;

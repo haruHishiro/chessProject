@@ -3,7 +3,7 @@
 
 int main() {
 	// branch init
-	deck* chessDeck = new deck(1);
+	deck* chessDeck = new deck(2);
 
 	chessDeck->setupStartPosition();
 	chessDeck->printDeck();
