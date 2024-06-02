@@ -11,6 +11,7 @@ public:
 	figure* operator[] (const unsigned short index);
 
 	char getFiguresNumber();
+	figure* getFigure(unsigned short index);
 
 	bool isEmpty();
 	void addFigure(char figureName, bool isWhite, char posX, char posY);

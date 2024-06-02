@@ -31,6 +31,16 @@ char figuresList::getFiguresNumber() {
     return counter;
 }
 
+figure* figuresList::getFigure(unsigned short index) {
+    if (figuresList::isEmpty()) return nullptr;
+    figure* f = figuresList::firstFigure;
+    for (unsigned short i = 0; i < index; i++) {
+        f = f->getNextFigure();
+        if (!f) return nullptr;
+    }
+    return f;
+}
+
 bool figuresList::isEmpty() {
     return figuresList::firstFigure == nullptr;
 }

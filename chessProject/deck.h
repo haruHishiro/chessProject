@@ -29,7 +29,7 @@ public:
 	step* getLastMove();
 
 	void setPosition(char** chessDeck);
-	void setFigures(figuresList whiteFigures, figuresList blackFigures);
+	void setFigures(figuresList* whiteFigures, figuresList* blackFigures);
 
 	void setupCheck();
 	void setupDraw();

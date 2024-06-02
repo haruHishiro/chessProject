@@ -363,7 +363,6 @@ void deck::allocFiguresSteps() {
 }
 
 int deck::analyze() {
-
 	if (deck::curentDeep == deck::maxDeep) {
 
 		deck::printDeck();
@@ -371,9 +370,7 @@ int deck::analyze() {
 		return deck::positionScore;
 	}
 
-
 	if (deck::allocatedStepsNumber < 1) {
-
 		// check endGame flags and return
 		if (deck::isDraw) {
 			// no moves = draw
@@ -393,13 +390,28 @@ int deck::analyze() {
 
 	deck::deckTree = new deck * [deck::allocatedStepsNumber];
 
+	figuresList* linkWhites = new figuresList;
+	figuresList* linkBlacks = new figuresList;
+
+	for (unsigned short i = 0; i < whiteFigures.getFiguresNumber(); i++) {
+		linkWhites->addFigure(deck::whiteFigures[i]->getFigureName(), deck::whiteFigures[i]->getIsWhite(), deck::whiteFigures[i]->getPosX(), deck::whiteFigures[i]->getPosY());
+	}
+	//printf("here 1\n");
+	for (unsigned short i = 0; i < blackFigures.getFiguresNumber(); i++) {
+		linkBlacks->addFigure(deck::blackFigures[i]->getFigureName(), deck::blackFigures[i]->getIsWhite(), deck::blackFigures[i]->getPosX(), deck::blackFigures[i]->getPosY());
+	}
+
 	for (unsigned short i = 0; i < allocatedStepsNumber; i++) {
 		printf("\nmove: %d\n", i);
 		deck::deckTree[i] = new deck(deck::difficulty, deck::curentDeep + 1);
 		deck::deckTree[i]->setIsWhiteMove(deck::isWhiteMove);
-		deck::deckTree[i]->setFigures(whiteFigures, blackFigures);
-		deck::deckTree[i]->setPosition(curentChessDeck);
+		deck::deckTree[i]->setPosition(deck::curentChessDeck);
 
+		//deck::blackFigures.printFigures();
+		deck::deckTree[i]->setFigures(linkWhites, linkBlacks);
+		//shitWhites->printFigures();
+		//shitBlacks->printFigures();
+		
 		deck::allocatedSteps[i]->printStep();
 
 		deck::deckTree[i]->doMove(deck::allocatedSteps[i]);
@@ -457,6 +469,9 @@ int deck::analyze() {
 			}
 		}
 	}
+
+	delete linkBlacks;
+	delete linkWhites;
 }
 
 void deck::setIsWhiteMove(bool isWhiteMove) {
@@ -492,21 +507,22 @@ void deck::setPosition(char** chessDeck) {
 	}
 }
 
-void deck::setFigures(figuresList whiteFigures, figuresList blackFigures) {
+void deck::setFigures(figuresList* whiteFigures, figuresList* blackFigures) {
 	//printf("here 0\n");
-	for (unsigned short i = 0; i < whiteFigures.getFiguresNumber(); i++) {
-		deck::whiteFigures.addFigure(whiteFigures[i]->getFigureName(), whiteFigures[i]->getIsWhite(), whiteFigures[i]->getPosX(), whiteFigures[i]->getPosY());
+	for (unsigned short i = 0; i < whiteFigures->getFiguresNumber(); i++) {
+		deck::whiteFigures.addFigure(whiteFigures->getFigure(i)->getFigureName(), whiteFigures->getFigure(i)->getIsWhite(),
+			whiteFigures->getFigure(i)->getPosX(), whiteFigures->getFigure(i)->getPosY());
 	}
 	//printf("here 1\n");
-	for (unsigned short i = 0; i < blackFigures.getFiguresNumber(); i++) {
-		deck::blackFigures.addFigure(blackFigures[i]->getFigureName(), blackFigures[i]->getIsWhite(), blackFigures[i]->getPosX(), blackFigures[i]->getPosY());
+	for (unsigned short i = 0; i < blackFigures->getFiguresNumber(); i++) {
+		deck::blackFigures.addFigure(blackFigures->getFigure(i)->getFigureName(), blackFigures->getFigure(i)->getIsWhite(),
+			blackFigures->getFigure(i)->getPosX(), blackFigures->getFigure(i)->getPosY());
 	}
 	//printf("here 2\n");
 	deck::whiteFiguresNumber = deck::whiteFigures.getFiguresNumber();
 	deck::blackFiguresNumber = deck::blackFigures.getFiguresNumber();
 	//printf("here 3\n");
 	//printf("%d %d\n", whiteFiguresNumber, blackFiguresNumber);
-	return;
 }
 
 void deck::setupCheck() {
