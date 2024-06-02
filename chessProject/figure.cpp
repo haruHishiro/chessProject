@@ -112,10 +112,13 @@ figure::figure(step** allocatedSteps, char stepsNumber, char figureName, bool is
 }
 
 figure::~figure() {
-	for (char i = 0; i < figure::stepsNumber; i++) {
-		delete figure::allocatedSteps[i];
+	//figure::printSteps();
+	//printf("%d\n", figure::stepsNumber);
+	for (char i = 0; i < figure::stepsCount; i++) {
+		if (allocatedSteps[i] != nullptr) delete figure::allocatedSteps[i];
+		//printf("");
 	}
-	delete figure::allocatedSteps;
+	if (allocatedSteps != nullptr) delete figure::allocatedSteps;
 }
 
 char figure::getFigureName() { return figure::figureName; }
@@ -244,12 +247,14 @@ void figure::whitePawnSetup(char** deck, step* lastStep) {
 	}
 
 	// eating on moove
-	if (figure::posY == 3 && lastStep && lastStep->getFigureName() == 'P'
-		&& (figure::posX - 1 == lastStep->getPosXTo() || figure::posX + 1 == lastStep->getPosXTo())
-		&& lastStep->getPosYFrom() == 1
-		&& lastStep->getPosYTo() == 3) {
-		// body
-		figure::addStep(new step('P', true, figure::posX, figure::posY, lastStep->getPosXTo(), figure::posY - 1, true, 'P'));
+	if (lastStep != nullptr) {
+		if (figure::posY == 3 && lastStep && lastStep->getFigureName() == 'P'
+			&& (figure::posX - 1 == lastStep->getPosXTo() || figure::posX + 1 == lastStep->getPosXTo())
+			&& lastStep->getPosYFrom() == 1
+			&& lastStep->getPosYTo() == 3) {
+			// body
+			figure::addStep(new step('P', true, figure::posX, figure::posY, lastStep->getPosXTo(), figure::posY - 1, true, 'P'));
+		}
 	}
 
 	// default eating right
@@ -308,15 +313,15 @@ void figure::blackPawnSetup(char** deck, step* lastStep) {
 		}
 	}
 
-	
-
-	// eating on moove
-	if (figure::posY == 4 && lastStep->getFigureName() == 'P'
-		&& (figure::posX - 1 == lastStep->getPosXTo() || figure::posX + 1 == lastStep->getPosXTo())
-		&& lastStep->getPosYFrom() == 6
-		&& lastStep->getPosYTo() == 4) {
-		// body
-		figure::addStep(new step('P', false, figure::posX, figure::posY, lastStep->getPosXTo(), figure::posY + 1, true, 'P'));
+	if (lastStep != nullptr) {
+		// eating on moove
+		if (figure::posY == 4 && lastStep->getFigureName() == 'P'
+			&& (figure::posX - 1 == lastStep->getPosXTo() || figure::posX + 1 == lastStep->getPosXTo())
+			&& lastStep->getPosYFrom() == 6
+			&& lastStep->getPosYTo() == 4) {
+			// body
+			figure::addStep(new step('P', false, figure::posX, figure::posY, lastStep->getPosXTo(), figure::posY + 1, true, 'P'));
+		}
 	}
 
 	// default eating right

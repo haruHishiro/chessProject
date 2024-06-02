@@ -14,6 +14,7 @@ public:
 	void setupStartPosition();
 
 	void doMove(step* move);
+	bool isCorrectMove(step* move);
 
 	int getPositionScore();
 
@@ -29,7 +30,6 @@ public:
 	void setPosition(char** chessDeck);
 	void setFigures(figuresList whiteFigures, figuresList blackFigures);
 
-	void setupEndGameFlags();
 	void setupCheck();
 	void setupDraw();
 	void setupIsEndGame();

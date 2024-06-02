@@ -8,8 +8,6 @@ int main() {
 	chessDeck->setupStartPosition();
 	chessDeck->printDeck();
 
-	
-
 	chessDeck->getBestStep();
 
 	return 0;

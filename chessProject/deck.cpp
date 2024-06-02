@@ -6,6 +6,7 @@ deck::deck(unsigned char difficulty) {
 	deck::curentDeep = 0;
 	deck::botSideIsWhite = false;
 	deck::setupFlags();
+	deck::allocatedStepsNumber = 0;
 
 	deck::curentChessDeck = new char* [8];
 	for (char i = 0; i < 8; i++) {
@@ -19,6 +20,8 @@ deck::deck(unsigned char curentDeep, unsigned char maxDeep) {
 	deck::botSideIsWhite = false;
 	deck::setupFlags();
 
+	deck::allocatedStepsNumber = 0;
+
 	deck::curentChessDeck = new char* [8];
 	for (char i = 0; i < 8; i++) {
 		deck::curentChessDeck[i] = new char[8];
@@ -26,19 +29,17 @@ deck::deck(unsigned char curentDeep, unsigned char maxDeep) {
 }
 
 deck::~deck() {
+	//deck::whiteFigures.printFigures();
 	deck::whiteFigures.clear();
+	//deck::blackFigures.printFigures();
 	deck::blackFigures.clear();
 
-	for (unsigned char i = 0; i < deck::allocatedStepsNumber; i++) {
-		delete deck::deckTree[i];
-	}
+	//printf("hi");
 
 	for (char i = 0; i < 8; i++) {
-		delete deck::curentChessDeck[i];
+		if (deck::curentChessDeck[i] != nullptr) delete deck::curentChessDeck[i];
 	}
-	delete deck::curentChessDeck;
-
-	delete deck::deckTree;
+	if (deck::curentChessDeck != nullptr) delete deck::curentChessDeck;
 }
 
 void deck::setDificulty(unsigned char difficulty) {
@@ -191,17 +192,41 @@ void deck::doMove(step* move) {
 	// switch move
 	deck::isWhiteMove = !deck::isWhiteMove;
 
-	deck::setupEndGameFlags();
-
 	deck::setupCurentDeck();
 }
 
+bool deck::isCorrectMove(step* move) {
+	//printf("here\n");
+	//move->printStep();
+	//printf("\n");
+
+	bool retFlag;
+	deck* breanch = new deck(deck::curentDeep, deck::maxDeep);
+	breanch->setupStartPosition();
+	breanch->setNotation(deck::notation);
+	breanch->setPosition(deck::curentChessDeck);
+	breanch->setIsWhiteMove(deck::isWhiteMove);
+
+	breanch->doMove(move);
+	breanch->setIsWhiteMove(deck::isWhiteMove);
+	breanch->setupCheck();
+	if (!(breanch->getIsCheck())) {
+		retFlag = true;
+	}
+	else {
+		retFlag = false;
+	}
+
+	delete breanch;
+	return retFlag;
+}
+
 int deck::getPositionScore() {
-	// position scoring function
-   // criteries:
-  // 1 - how many fields under white side control
- // 2 - how many fields under black side control
-// 3 - white figures cost
+	 // position scoring function
+    // criteries:
+   // 1 - how many fields under white side control
+  // 2 - how many fields under black side control
+ // 3 - white figures cost
 // 4 - black figures cost
 
 	int score = 0;
@@ -243,47 +268,33 @@ void deck::setupFiguresSteps() {
 void deck::allocFiguresSteps() {
 	deck::setupCheck();
 	
-	deck* breanch = new deck(deck::curentDeep, deck::maxDeep);
-
-	breanch->setupStartPosition();
-	breanch->setNotation(deck::notation);
-	breanch->setPosition(deck::curentChessDeck);
-	
-	breanch->setIsWhiteMove(deck::isWhiteMove);
-
 	if (deck::isWhiteMove) {
+		//printf("%d\n", whiteFiguresNumber);
 		for (unsigned i = 0; i < deck::whiteFiguresNumber; i++) {
 			//if (!deck::whiteFigures[i]->getStepsCount()) continue;
-			printf("%c\n", deck::whiteFigures[i]->getFigureName());
+			//printf("%c\n", deck::whiteFigures[i]->getFigureName());
 			step** figureSteps = deck::whiteFigures[i]->getAllocatedSteps();
 			for (unsigned j = 0; j < deck::whiteFigures[i]->getStepsCount(); j++) {
-				breanch->doMove(figureSteps[j]);
-				breanch->setIsWhiteMove(deck::isWhiteMove);
-				breanch->setupCheck();
-				if (!(breanch->getIsCheck())) {
-					printf("here\n");
-					// закончили здесь
+				if (isCorrectMove(figureSteps[j])) {
+					//printf("here\n");
 					deck::allocatedSteps.pushBack(figureSteps[j]);
+					//printf("here 2\n");
 				}
 			}
-			deck::allocatedSteps.printNotation();
 		}
 	}
 	else {
 		for (unsigned i = 0; i < deck::blackFiguresNumber; i++) {
 			step** figureSteps = deck::blackFigures[i]->getAllocatedSteps();
 			for (unsigned j = 0; j < deck::blackFigures[i]->getStepsCount(); j++) {
-				breanch->doMove(figureSteps[j]);
-				breanch->setIsWhiteMove(deck::isWhiteMove);
-				breanch->setupCheck();
-				if (!(breanch->getIsCheck())) {
+				if (isCorrectMove(figureSteps[j])) {
 					deck::allocatedSteps.pushBack(figureSteps[j]);
 				}
 			}
 		}
 	}
 
-	delete breanch;
+	//deck::allocatedSteps.printNotation();
 }
 
 int deck::analyze() {
@@ -321,7 +332,6 @@ int deck::analyze() {
 	if (deck::curentDeep + 1 < deck::maxDeep) {
 		// deeper and deeper
 		// check endgame flags before
-		deck::setupEndGameFlags();
 		if (deck::isEndGame) {
 			if (deck::isDraw) {
 				// no moves = draw
@@ -412,9 +422,6 @@ void deck::setFigures(figuresList whiteFigures, figuresList blackFigures) {
 	//printf("here 3\n");
 	//printf("%d %d\n", whiteFiguresNumber, blackFiguresNumber);
 	return;
-}
-
-void deck::setupEndGameFlags() {
 }
 
 void deck::setupCheck() {
@@ -508,7 +515,7 @@ bool deck::getIsEndGame() {
 void deck::printDeck() {
 	for (char i = 0; i < 8; i++) {
 		for (char j = 0; j < 8; j++) {
-			switch (deck::curentChessDeck[i][j]) {
+			switch (deck::curentChessDeck[j][i]) {
 			case 1:
 				printf("P");
 				break;
@@ -557,6 +564,7 @@ void deck::printDeck() {
 step* deck::getBestStep() {
 	deck::setupFiguresSteps();
 	deck::allocFiguresSteps();
+	deck::allocatedSteps.printNotation();
 
 	return nullptr;
 }
