@@ -43,7 +43,7 @@ deck::~deck() {
 	for (char i = 0; i < 8; i++) {
 		if (deck::curentChessDeck[i] != nullptr) delete deck::curentChessDeck[i];
 	}
-	if (deck::curentChessDeck != nullptr) delete deck::curentChessDeck;
+	if (deck::curentChessDeck != nullptr) delete [] deck::curentChessDeck;
 }
 
 void deck::setDificulty(unsigned char difficulty) {
@@ -258,20 +258,29 @@ int deck::getPositionScore() {
 	for (unsigned char i = 0; i < deck::whiteFiguresNumber; i++) {
 		deck::whiteFigures[i]->setupSteps(deck::curentChessDeck, notation.getLast());
 	}
-	
+
+	char** tempDeck;
+
+	tempDeck = new char* [8];
+	for (char i = 0; i < 8; i++) {
+		tempDeck[i] = new char[8];
+	}
 
 	int score = 0;
 	char field_control_k = 10;
 
 	for (unsigned char i = 0; i < deck::whiteFiguresNumber; i++) {
-		score += (field_control_k * deck::whiteFigures[i]->getStepsCount());
 		score += deck::whiteFigures[i]->getCost();
 	}
 
 	for (unsigned char i = 0; i < deck::blackFiguresNumber; i++) {
-		score -= (field_control_k * deck::blackFigures[i]->getStepsCount());
 		score += deck::blackFigures[i]->getCost();
 	}
+
+	for (char i = 0; i < 8; i++) {
+		if (tempDeck[i] != nullptr) delete tempDeck[i];
+	}
+	if (tempDeck != nullptr) delete [] tempDeck;
 
 	return score;
 }

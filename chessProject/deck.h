@@ -44,7 +44,6 @@ public:
 	step* getBestStep();
 
 private:
-	
 	void setupCurentDeck();
 	void clearTreeStatement();
 	void setupFlags();
