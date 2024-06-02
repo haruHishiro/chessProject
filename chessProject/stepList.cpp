@@ -12,8 +12,11 @@ stepList::~stepList() {
 
 bool stepList::isEmpty() { return stepList::firstStep == nullptr; }
 
-void stepList::pushBack(bool isWhite, char figureName, char posXFrom, char posYFrom, char posXTo, char posYTo, bool isEat, char eatenName, unsigned score) {
-	step* s = new step();
+void stepList::pushBack(bool isWhite, char figureName, char posXFrom, char posYFrom, char posXTo, char posYTo, bool isEat, char eatenName, unsigned score, bool pwnOnLast, char newFigureName) {
+	step* s = new step(figureName,isWhite,posXFrom,posYFrom,posXTo,posYTo,isEat,eatenName);
+	s->setScore(score);
+	s->setPwnOnLast(pwnOnLast);
+	s->setNewFigureName(newFigureName);
 	if (stepList::isEmpty()) {
 		stepList::firstStep = s;
 		stepList::lastStep = s;
@@ -27,7 +30,7 @@ void stepList::pushBack(bool isWhite, char figureName, char posXFrom, char posYF
 
 void stepList::pushBack(step* s) {
 	stepList::pushBack(s->getIsWhiteStep(), s->getFigureName(), s->getPosXFrom(), s->getPosYFrom(),
-		s->getPosXTo(), s->getPosYTo(), s->getIsEat(), s->getEatenName(), s->getScore());
+		s->getPosXTo(), s->getPosYTo(), s->getIsEat(), s->getEatenName(), s->getScore(), s->getPwnOnLast(), s->getNewFigureName());
 }
 
 void stepList::removeFirst() {
@@ -66,17 +69,17 @@ void stepList::clear() {
 
 void stepList::printNotation() {
 	if (stepList::isEmpty()) return;
-	char deckChars[] = "ABCDEFGH";
+	char deckChars[] = "abcdefgh";
 	step* s = stepList::firstStep;
-	for (unsigned short i = 0; i < stepList::lastStep->getStepNumber(); i++) {
+	for (;s;) {
 		if (s->getIsWhiteStep()) {
-			printf("%d. %c%c%d-%c%d",
+			printf("%d. %c%c%d-%c%d ",
 				s->getStepNumber(),
 				s->getFigureName(), deckChars[s->getPosXFrom()], s->getPosYFrom() + 1,
 				deckChars[s->getPosXTo()], s->getPosYTo() + 1);
 		}
 		else {
-			printf(" %c%c%d-%c%d  ",
+			printf("%c%c%d-%c%d\n",
 				s->getFigureName(), deckChars[s->getPosXFrom()], s->getPosYFrom() + 1,
 				deckChars[s->getPosXTo()], s->getPosYTo() + 1);
 		}

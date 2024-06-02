@@ -9,7 +9,7 @@ public:
 	stepList();
 	~stepList();
 	bool isEmpty();
-	void pushBack(bool isWhite, char figureName, char posXFrom, char posYFrom, char posXTo, char posYTo, bool isEat, char eatenName, unsigned score);
+	void pushBack(bool isWhite, char figureName, char posXFrom, char posYFrom, char posXTo, char posYTo, bool isEat, char eatenName, unsigned score, bool pwnOnLast, char newFigureName);
 	void pushBack(step* s);
 	void removeFirst();
 	void removeLast();
