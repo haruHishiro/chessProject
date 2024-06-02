@@ -12,6 +12,8 @@ deck::deck(unsigned char difficulty) {
 	for (char i = 0; i < 8; i++) {
 		deck::curentChessDeck[i] = new char[8];
 	}
+
+	deck::bestStep = nullptr;
 }
 
 deck::deck(unsigned char curentDeep, unsigned char maxDeep) {
@@ -26,6 +28,8 @@ deck::deck(unsigned char curentDeep, unsigned char maxDeep) {
 	for (char i = 0; i < 8; i++) {
 		deck::curentChessDeck[i] = new char[8];
 	}
+
+	deck::bestStep = nullptr;
 }
 
 deck::~deck() {
@@ -189,10 +193,29 @@ void deck::doMove(step* move) {
 		}
 	}
 
+	// update figures positions
+	if (deck::isWhiteMove) {
+		for (char i = 0; i < deck::whiteFiguresNumber; i++) {
+			if (move->getPosXFrom() == deck::whiteFigures[i]->getPosX()
+				&& move->getPosYFrom() == deck::whiteFigures[i]->getPosY()) {
+				deck::whiteFigures[i]->setPosX(move->getPosXTo());
+				deck::whiteFigures[i]->setPosY(move->getPosYTo());
+			}
+		}
+	}
+	else {
+		for (char i = 0; i < deck::blackFiguresNumber; i++) {
+			if (move->getPosXFrom() == deck::blackFigures[i]->getPosX()
+				&& move->getPosYFrom() == deck::blackFigures[i]->getPosY()) {
+				deck::blackFigures[i]->setPosX(move->getPosXTo());
+				deck::blackFigures[i]->setPosY(move->getPosYTo());
+			}
+		}
+	}
+
 	// switch move
 	deck::isWhiteMove = !deck::isWhiteMove;
 
-	deck::setupCurentDeck();
 }
 
 bool deck::isCorrectMove(step* move) {
@@ -224,22 +247,30 @@ bool deck::isCorrectMove(step* move) {
 int deck::getPositionScore() {
 	 // position scoring function
     // criteries:
-   // 1 - how many fields under white side control
-  // 2 - how many fields under black side control
+   // 1 - how many fields under whites side control
+  // 2 - how many fields under blacks side control
  // 3 - white figures cost
 // 4 - black figures cost
+	
+	for (unsigned char i = 0; i < deck::blackFiguresNumber; i++) {
+		deck::blackFigures[i]->setupSteps(deck::curentChessDeck, notation.getLast());
+	}
+	for (unsigned char i = 0; i < deck::whiteFiguresNumber; i++) {
+		deck::whiteFigures[i]->setupSteps(deck::curentChessDeck, notation.getLast());
+	}
+	
 
 	int score = 0;
 	char field_control_k = 10;
 
 	for (unsigned char i = 0; i < deck::whiteFiguresNumber; i++) {
-		score += field_control_k * deck::whiteFigures[i]->getStepsNumber();
+		score += (field_control_k * deck::whiteFigures[i]->getStepsCount());
 		score += deck::whiteFigures[i]->getCost();
 	}
 
 	for (unsigned char i = 0; i < deck::blackFiguresNumber; i++) {
-		score -= field_control_k * deck::blackFigures[i]->getStepsNumber();
-		score -= deck::blackFigures[i]->getCost();
+		score -= (field_control_k * deck::blackFigures[i]->getStepsCount());
+		score += deck::blackFigures[i]->getCost();
 	}
 
 	return score;
@@ -251,9 +282,9 @@ void deck::setupFiguresSteps() {
 		for (unsigned char i = 0; i < deck::whiteFiguresNumber; i++) {
 			//deck::printDeck();
 			deck::whiteFigures[i]->setupSteps(deck::curentChessDeck, notation.getLast());
-			printf("%d:%c->",i, deck::whiteFigures[i]->getFigureName());
-			deck::whiteFigures[i]->printSteps();
-			printf("\n");
+			//printf("%d:%c->",i, deck::whiteFigures[i]->getFigureName());
+			//deck::whiteFigures[i]->printSteps();
+			//printf("\n");
 		}
 	}
 	else {
@@ -261,24 +292,19 @@ void deck::setupFiguresSteps() {
 			deck::blackFigures[i]->setupSteps(deck::curentChessDeck, notation.getLast());
 		}
 	}
-
-
 }
 
 void deck::allocFiguresSteps() {
 	deck::setupCheck();
 	
+	deck::allocatedStepsNumber = 0;
 	if (deck::isWhiteMove) {
-		//printf("%d\n", whiteFiguresNumber);
 		for (unsigned i = 0; i < deck::whiteFiguresNumber; i++) {
-			//if (!deck::whiteFigures[i]->getStepsCount()) continue;
-			//printf("%c\n", deck::whiteFigures[i]->getFigureName());
 			step** figureSteps = deck::whiteFigures[i]->getAllocatedSteps();
 			for (unsigned j = 0; j < deck::whiteFigures[i]->getStepsCount(); j++) {
 				if (isCorrectMove(figureSteps[j])) {
-					//printf("here\n");
 					deck::allocatedSteps.pushBack(figureSteps[j]);
-					//printf("here 2\n");
+					deck::allocatedStepsNumber++;
 				}
 			}
 		}
@@ -289,21 +315,25 @@ void deck::allocFiguresSteps() {
 			for (unsigned j = 0; j < deck::blackFigures[i]->getStepsCount(); j++) {
 				if (isCorrectMove(figureSteps[j])) {
 					deck::allocatedSteps.pushBack(figureSteps[j]);
+					deck::allocatedStepsNumber++;
 				}
 			}
 		}
 	}
-
-	//deck::allocatedSteps.printNotation();
 }
 
 int deck::analyze() {
+	
 	if (deck::curentDeep == deck::maxDeep) {
+		
+		deck::printDeck();
 		deck::setupPositionScore();
 		return deck::positionScore;
 	}
+	
 
 	if (deck::allocatedStepsNumber < 1) {
+		
 		// check endGame flags and return
 		if (deck::isDraw) {
 			// no moves = draw
@@ -319,14 +349,24 @@ int deck::analyze() {
 		deck::isEndGame = true;
 		return deck::positionScore;
 	}
+	
 
 	deck::deckTree = new deck * [deck::allocatedStepsNumber];
 
 	for (unsigned short i = 0; i < allocatedStepsNumber; i++) {
+		printf("\nmove: %d\n", i);
 		deck::deckTree[i] = new deck(deck::difficulty, deck::curentDeep + 1);
 		deck::deckTree[i]->setIsWhiteMove(deck::isWhiteMove);
+		deck::deckTree[i]->setFigures(whiteFigures, blackFigures);
+		deck::deckTree[i]->setPosition(curentChessDeck);
+
+		deck::allocatedSteps[i]->printStep();
+		
 		deck::deckTree[i]->doMove(deck::allocatedSteps[i]);
+		deck::deckTree[i]->printDeck();
 		deck::deckTree[i]->setupPositionScore();
+		
+		printf("score: %d", deck::deckTree[i]->getPositionScore());
 	}
 
 	if (deck::curentDeep + 1 < deck::maxDeep) {
@@ -361,14 +401,15 @@ int deck::analyze() {
 		// setup best step
 		for (unsigned short i = 1; i < allocatedStepsNumber; i++) {
 			if (deck::isWhiteMove) {
-				// whites move - find max positive
+				// whites move - find max positive (max)
+				printf("pos score: %d > %d?", deck::deckTree[i]->getPositionScore(), deck::positionScore);
 				if (deck::deckTree[i]->getPositionScore() > deck::positionScore) {
 					deck::positionScore = deck::deckTree[i]->getPositionScore();
 					deck::bestStep = deck::deckTree[i]->getLastMove();
 				}
 			}
 			else {
-				// blacks move - find max negative
+				// blacks move - find max negative (min)
 				if (deck::deckTree[i]->getPositionScore() < deck::positionScore) {
 					deck::positionScore = deck::deckTree[i]->getPositionScore();
 					deck::bestStep = deck::deckTree[i]->getLastMove();
@@ -384,6 +425,10 @@ void deck::setIsWhiteMove(bool isWhiteMove) {
 
 void deck::setupPositionScore() {
 	deck::positionScore = deck::getPositionScore();
+}
+
+void deck::setPositionScore(int positionScore) {
+	deck::positionScore = positionScore;
 }
 
 void deck::setNotation(stepList notation) {
@@ -564,9 +609,11 @@ void deck::printDeck() {
 step* deck::getBestStep() {
 	deck::setupFiguresSteps();
 	deck::allocFiguresSteps();
-	deck::allocatedSteps.printNotation();
+	deck::analyze();
+	//step* bestStep = deck::allocatedSteps[0];
+	//deck::allocatedSteps.printNotation();
 
-	return nullptr;
+	return bestStep;
 }
 
 void deck::setupCurentDeck() {

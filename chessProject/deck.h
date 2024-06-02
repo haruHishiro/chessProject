@@ -24,6 +24,7 @@ public:
 
 	void setIsWhiteMove(bool isWhiteMove);
 	void setupPositionScore();
+	void setPositionScore(int positionScore);
 	void setNotation(stepList notation);
 	step* getLastMove();
 
@@ -43,8 +44,9 @@ public:
 	step* getBestStep();
 
 private:
+	
 	void setupCurentDeck();
-
+	void clearTreeStatement();
 	void setupFlags();
 	// variables for difficulty
 	char difficulty;
@@ -74,6 +76,5 @@ private:
 
 	deck** deckTree;
 
-	void clearTreeStatement();
 	bool botSideIsWhite;
 };
