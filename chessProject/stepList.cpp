@@ -75,13 +75,13 @@ void stepList::printNotation() {
 		if (s->getIsWhiteStep()) {
 			printf("%d. %c%c%d-%c%d ",
 				s->getStepNumber(),
-				s->getFigureName(), deckChars[s->getPosXFrom()], s->getPosYFrom() + 1,
-				deckChars[s->getPosXTo()], s->getPosYTo() + 1);
+				s->getFigureName(), deckChars[s->getPosXFrom()], s->getPosYFrom(),
+				deckChars[s->getPosXTo()], s->getPosYTo());
 		}
 		else {
 			printf("%c%c%d-%c%d\n",
-				s->getFigureName(), deckChars[s->getPosXFrom()], s->getPosYFrom() + 1,
-				deckChars[s->getPosXTo()], s->getPosYTo() + 1);
+				s->getFigureName(), deckChars[s->getPosXFrom()], s->getPosYFrom(),
+				deckChars[s->getPosXTo()], s->getPosYTo());
 		}
 		s = s->getNextStep();
 	}

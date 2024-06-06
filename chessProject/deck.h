@@ -25,7 +25,7 @@ public:
 	void setIsWhiteMove(bool isWhiteMove);
 	void setupPositionScore();
 	void setPositionScore(int positionScore);
-	void setNotation(stepList notation);
+	void setNotation(stepList* notation);
 	step* getLastMove();
 
 	void setPosition(char** chessDeck);
@@ -40,6 +40,7 @@ public:
 	bool getIsEndGame();
 
 	void printDeck();
+	void printNotation();
 
 	step* getBestStep();
 
@@ -56,7 +57,7 @@ private:
 	int positionScore;
 	int treePositionScore;
 
-	stepList notation;
+	stepList* notation;
 	step* bestStep;
 
 	figuresList* whiteFigures;

@@ -165,6 +165,13 @@ void figure::printSteps() {
 }
 
 void figure::setupSteps(char** deck, step* lastStep){
+	// clear
+	for (char i = 0; i < figure::stepsCount; i++) {
+		if (allocatedSteps[i] != nullptr) delete figure::allocatedSteps[i];
+	}
+	figure::stepsCount = 0;
+
+	// adding
 	if (figure::isWhite) {
 		figure::whiteSetup(deck, lastStep);
 	}
