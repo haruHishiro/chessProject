@@ -191,30 +191,46 @@ void deck::doMove(step* move) {
 
 bool deck::isCorrectMove(step* move) {
 	//printf("here\n");
-	//move->printStep();
+	move->printStep();
 	//printf("\n");
 
 	bool retFlag;
 	deck* breanch = new deck(deck::difficulty);
 	breanch->setFigures(deck::whiteFigures, deck::whiteFigures);
-	
+
 	breanch->setNotation(deck::notation);
 	breanch->setPosition(deck::curentChessDeck);
 	breanch->setIsWhiteMove(deck::isWhiteMove);
 
 	breanch->doMove(move);
-	//breanch->printDeck();
-	breanch->setIsWhiteMove(deck::isWhiteMove);
-	breanch->setupCheck();
-	if (!(breanch->getIsCheck())) {
-		retFlag = true;
+	breanch->printDeck();
+	breanch->setupFiguresSteps();
+
+	if (breanch->getIsWhiteMove()) {
+		for (char i = 0; i < deck::whiteFiguresNumber; i++) {
+			step** steps = breanch->getWhiteFiguresList()->getFigure(i)->getAllocatedSteps();
+			for (char j = 0; j < breanch->getWhiteFiguresList()->getFigure(i)->getStepsCount(); j++) {
+				if (steps[j]->getEatenName() == 'K') {
+					delete breanch;
+					return false;
+				}
+			}
+		}
 	}
 	else {
-		retFlag = false;
+		for (char i = 0; i < deck::blackFiguresNumber; i++) {
+			step** steps = breanch->getBlackFiguresList()->getFigure(i)->getAllocatedSteps();
+			for (char j = 0; j < breanch->getBlackFiguresList()->getFigure(i)->getStepsCount(); j++) {
+				if (steps[j]->getEatenName() == 'K') {
+					delete breanch;
+					return false;
+				}
+			}
+		}
 	}
-
+	
 	delete breanch;
-	return retFlag;
+	return true;
 }
 
 int deck::getPositionScore() {
@@ -308,7 +324,7 @@ void deck::setupFiguresSteps() {
 }
 
 void deck::allocFiguresSteps() {
-	deck::setupCheck();
+	// figures steps must be settuped before
 
 	deck::allocatedStepsNumber = 0;
 	if (deck::isWhiteMove) {
@@ -378,7 +394,7 @@ void deck::newAnalize(char _curent, char _max) {
 		deck::deckTree[i]->allocFiguresSteps();
 		deck::deckTree[i]->newAnalize(deck::curentDeep + 1, deck::difficulty);
 	}
-	
+
 	deck::bestStep = new step(
 		deck::allocatedSteps[0]->getFigureName(),
 		deck::allocatedSteps[0]->getIsWhiteStep(),
@@ -412,7 +428,7 @@ void deck::newAnalize(char _curent, char _max) {
 					deck::allocatedSteps[i]->getPosXTo(), deck::allocatedSteps[i]->getPosYTo(),
 					deck::allocatedSteps[i]->getIsEat(), deck::allocatedSteps[i]->getEatenName(),
 					deck::allocatedSteps[i]->getPwnOnLast(), deck::allocatedSteps[i]->getNewFigureName());
-				
+
 				deck::positionScore = deckTree[i]->getPositionScore();
 			}
 		}
@@ -421,7 +437,7 @@ void deck::newAnalize(char _curent, char _max) {
 	for (unsigned short i = 0; i < deck::allocatedStepsNumber; i++) {
 		delete deckTree[i];
 	}
-	
+
 	return;
 }
 

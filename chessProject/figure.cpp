@@ -1118,88 +1118,88 @@ void figure::blackKingSetup(char** deck, step* lastStep) {
 	if (figure::posX + 1 < 8) {
 		if (deck[figure::posX + 1][figure::posY] > 0) {
 			fN = fArr[(deck[figure::posX + 1][figure::posY])];
-			figure::addStep(new step('K', true, figure::posX, figure::posY, figure::posX + 1, figure::posY, true, fN));
+			figure::addStep(new step('K', false, figure::posX, figure::posY, figure::posX + 1, figure::posY, true, fN));
 		}
 
 		if (deck[figure::posX + 1][figure::posY] == 0) {
-			figure::addStep(new step('K', true, figure::posX, figure::posY, figure::posX + 1, figure::posY, false, '\0'));
+			figure::addStep(new step('K', false, figure::posX, figure::posY, figure::posX + 1, figure::posY, false, '\0'));
 		}
 	}
 
 	if (figure::posX - 1 >= 0) {
 		if (deck[figure::posX - 1][figure::posY] > 0) {
 			fN = fArr[(deck[figure::posX - 1][figure::posY])];
-			figure::addStep(new step('K', true, figure::posX, figure::posY, figure::posX - 1, figure::posY, true, fN));
+			figure::addStep(new step('K', false, figure::posX, figure::posY, figure::posX - 1, figure::posY, true, fN));
 		}
 
 		if (deck[figure::posX - 1][figure::posY] == 0) {
-			figure::addStep(new step('K', true, figure::posX, figure::posY, figure::posX - 1, figure::posY, false, '\0'));
+			figure::addStep(new step('K', false, figure::posX, figure::posY, figure::posX - 1, figure::posY, false, '\0'));
 		}
 	}
 
 	if (figure::posY + 1 < 8) {
 		if (deck[figure::posX][figure::posY + 1] > 0) {
 			fN = fArr[(deck[figure::posX][figure::posY + 1])];
-			figure::addStep(new step('K', true, figure::posX, figure::posY, figure::posX, figure::posY + 1, true, fN));
+			figure::addStep(new step('K', false, figure::posX, figure::posY, figure::posX, figure::posY + 1, true, fN));
 		}
 
 		if (deck[figure::posX][figure::posY + 1] == 0) {
-			figure::addStep(new step('K', true, figure::posX, figure::posY, figure::posX, figure::posY + 1, false, '\0'));
+			figure::addStep(new step('K', false, figure::posX, figure::posY, figure::posX, figure::posY + 1, false, '\0'));
 		}
 	}
 
 	if (figure::posY - 1 >= 0) {
 		if (deck[figure::posX][figure::posY - 1] > 0) {
 			fN = fArr[(deck[figure::posX][figure::posY - 1])];
-			figure::addStep(new step('K', true, figure::posX, figure::posY, figure::posX, figure::posY - 1, true, fN));
+			figure::addStep(new step('K', false, figure::posX, figure::posY, figure::posX, figure::posY - 1, true, fN));
 		}
 
 		if (deck[figure::posX][figure::posY - 1] == 0) {
-			figure::addStep(new step('K', true, figure::posX, figure::posY, figure::posX, figure::posY - 1, false, '\0'));
+			figure::addStep(new step('K', false, figure::posX, figure::posY, figure::posX, figure::posY - 1, false, '\0'));
 		}
 	}
 
 	if (figure::posX + 1 < 8 && figure::posY + 1 < 8) {
 		if (deck[figure::posX + 1][figure::posY + 1] > 0) {
 			fN = fArr[(deck[figure::posX + 1][figure::posY + 1])];
-			figure::addStep(new step('K', true, figure::posX, figure::posY, figure::posX + 1, figure::posY + 1, true, fN));
+			figure::addStep(new step('K', false, figure::posX, figure::posY, figure::posX + 1, figure::posY + 1, true, fN));
 		}
 
 		if (deck[figure::posX + 1][figure::posY + 1] == 0) {
-			figure::addStep(new step('K', true, figure::posX, figure::posY, figure::posX + 1, figure::posY + 1, false, '\0'));
+			figure::addStep(new step('K', false, figure::posX, figure::posY, figure::posX + 1, figure::posY + 1, false, '\0'));
 		}
 	}
 
 	if (figure::posX + 1 < 8 && figure::posY - 1 >= 0) {
 		if (deck[figure::posX + 1][figure::posY - 1] > 0) {
 			fN = fArr[(deck[figure::posX + 1][figure::posY - 1])];
-			figure::addStep(new step('K', true, figure::posX, figure::posY, figure::posX + 1, figure::posY - 1, true, fN));
+			figure::addStep(new step('K', false, figure::posX, figure::posY, figure::posX + 1, figure::posY - 1, true, fN));
 		}
 
 		if (deck[figure::posX + 1][figure::posY - 1] == 0) {
-			figure::addStep(new step('K', true, figure::posX, figure::posY, figure::posX + 1, figure::posY - 1, false, '\0'));
+			figure::addStep(new step('K', false, figure::posX, figure::posY, figure::posX + 1, figure::posY - 1, false, '\0'));
 		}
 	}
 
 	if (figure::posX - 1 >= 0 && figure::posY + 1 < 8) {
 		if (deck[figure::posX - 1][figure::posY + 1] > 0) {
 			fN = fArr[(deck[figure::posX - 1][figure::posY + 1])];
-			figure::addStep(new step('K', true, figure::posX, figure::posY, figure::posX - 1, figure::posY + 1, true, fN));
+			figure::addStep(new step('K', false, figure::posX, figure::posY, figure::posX - 1, figure::posY + 1, true, fN));
 		}
 
 		if (deck[figure::posX - 1][figure::posY + 1] == 0) {
-			figure::addStep(new step('K', true, figure::posX, figure::posY, figure::posX - 1, figure::posY + 1, true, '\0'));
+			figure::addStep(new step('K', false, figure::posX, figure::posY, figure::posX - 1, figure::posY + 1, true, '\0'));
 		}
 	}
 
 	if (figure::posX - 1 >= 0 && figure::posY - 1 >= 0) {
 		if (deck[figure::posX - 1][figure::posY - 1] > 0) {
 			fN = fArr[(deck[figure::posX - 1][figure::posY - 1])];
-			figure::addStep(new step('K', true, figure::posX, figure::posY, figure::posX - 1, figure::posY - 1, true, fN));
+			figure::addStep(new step('K', false, figure::posX, figure::posY, figure::posX - 1, figure::posY - 1, true, fN));
 		}
 
 		if (deck[figure::posX - 1][figure::posY - 1] == 0) {
-			figure::addStep(new step('K', true, figure::posX, figure::posY, figure::posX - 1, figure::posY - 1, false, '\0'));
+			figure::addStep(new step('K', false, figure::posX, figure::posY, figure::posX - 1, figure::posY - 1, false, '\0'));
 		}
 	}
 }

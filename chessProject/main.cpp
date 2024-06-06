@@ -86,7 +86,6 @@ int main() {
 		system("cls");
 		chessDeck->printDeck();
 		chessDeck->doMove(chessDeck->getBestStep());
-
 	}
 
 	return 0;
