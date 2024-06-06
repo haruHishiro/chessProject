@@ -85,11 +85,12 @@ bool step::getPwnOnLast() { return step::pwnOnLast; }
 void step::setPwnOnLast(bool pwnOnLast) { step::pwnOnLast = pwnOnLast; }
 
 void step::printStep() {
+	char posY[8] = { 8,7,6,5,4,3,2,1 };
 	if (step::getIsWhiteStep()) {
-		printf("%c%c%d->%c%d", step::figureName, (step::posXFrom + 'a'), step::posYFrom, (step::posXTo + 'a'), step::posYTo);
+		printf("%c%c%d->%c%d", step::figureName, (step::posXFrom + 'a'), posY[step::posYFrom], (step::posXTo + 'a'), posY[step::posYTo]);
 	}
 	else {
-		printf("%c%c%d->%c%d",step::figureName, (step::posXFrom + 'a'), step::posYFrom, (step::posXTo + 'a'), step::posYTo);
+		printf("%c%c%d->%c%d",step::figureName, (step::posXFrom + 'a'), posY[step::posYFrom], (step::posXTo + 'a'), posY[step::posYTo]);
 	}
 	printf("\n");
 }

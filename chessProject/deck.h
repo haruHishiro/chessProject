@@ -8,9 +8,8 @@
 class deck {
 public:
 	deck(unsigned char difficulty);
-	deck(unsigned char curentDeep, unsigned char maxDeep);
 	~deck();
-	void setDificulty(unsigned char difficulty);
+	
 	void setupStartPosition();
 
 	void doMove(step* move);
@@ -20,13 +19,14 @@ public:
 
 	void setupFiguresSteps();
 	void allocFiguresSteps();
-	int analyze();
+
+	void newAnalize(char curentDeep, char maxDeep);
+	void newAnalize();
 
 	void setIsWhiteMove(bool isWhiteMove);
 	void setupPositionScore();
 	void setPositionScore(int positionScore);
 	void setNotation(stepList* notation);
-	step* getLastMove();
 
 	void setPosition(char** chessDeck);
 	void setFigures(figuresList* whiteFigures, figuresList* blackFigures);
@@ -42,7 +42,24 @@ public:
 	void printDeck();
 	void printNotation();
 
+	step* getLast();
 	step* getBestStep();
+
+	step* getBestStepMove();
+
+	void setBestStep(step* best);
+
+	bool getIsWhiteMove();
+
+	figuresList* getBlackFiguresList();
+	figuresList* getWhiteFiguresList();
+
+	bool IsValidMove(step* move);
+
+	void setBotSide(bool side);
+	bool getBotSide();
+
+	void printValidSteps();
 
 private:
 	void setupCurentDeck();
@@ -50,8 +67,6 @@ private:
 	void setupFlags();
 	// variables for difficulty
 	char difficulty;
-	unsigned char maxDeep;      // how deep we want to analyze
-	unsigned char curentDeep;
 
 	char** curentChessDeck;    // main deck
 	int positionScore;
@@ -77,4 +92,6 @@ private:
 	deck** deckTree;
 
 	bool botSideIsWhite;
+
+	unsigned short curentDeep;
 };
